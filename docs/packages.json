@@ -3,8 +3,8 @@
   "packages": [
     {
       "$schema": "https://go.kicad.org/pcm/schemas/v1",
-      "name": "My KiCad Symbol Library",
-      "description": "Internal KiCad 9 symbol library with full component metadata",
+      "name": "modue KiCad PCB Library",
+      "description": "modue internal KiCad 9 PCB library",
       "description_full": "Company symbol library. Every symbol includes Reference, Value, Footprint, Datasheet, Description, MPN, Manufacturer and IPN fields.\n\nMaintained by the hardware team.",
       "identifier": "com.github.modue.pcb-kicad-library",
       "type": "library",
@@ -20,13 +20,13 @@
       },
       "versions": [
         {
-          "version": "26.0306.3",
+          "version": "26.0306.4",
           "status": "stable",
           "kicad_version": "9.0",
-          "download_url": "https://github.com/modue/pcb-kicad-library/releases/download/v26.0306.3/library.zip",
-          "download_sha256": "524b1f68b6d580293301f9f31a9b83ee5a1ee87f620890dc2322edbcf20ded45",
-          "download_size": 2593,
-          "install_size": 2661
+          "download_url": "https://github.com/modue/pcb-kicad-library/releases/download/v26.0306.4/library.zip",
+          "download_sha256": "4393217d527c049e99c076d24efc6cada423dc512915bac175646e6cb1a99c41",
+          "download_size": 2572,
+          "install_size": 2635
         }
       ]
     }
