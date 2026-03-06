@@ -1,0 +1,128 @@
+# ============================================================
+#  .gitignore for a KiCad 9 symbol/footprint library repository
+# ============================================================
+
+# ------------------------------------------------------------
+# Session lock files
+# ------------------------------------------------------------
+*.lck                  # Written by KiCad while a file is open; never commit
+
+# ------------------------------------------------------------
+# Automatic backups
+# KiCad 9 creates a timestamped backup tree next to every
+# project/library file – fully regenerable, never meaningful
+# to version-control.
+# ------------------------------------------------------------
+*-backups/
+*.bak
+*.kicad_sym-bak
+*.kicad_mod-bak
+
+# ------------------------------------------------------------
+# Library manager cache
+# fp-info-cache is a serialised index KiCad rebuilds by
+# scanning every .pretty/ directory on startup.  Committing
+# it causes spurious diffs on every workstation.
+# ------------------------------------------------------------
+fp-info-cache
+
+# ------------------------------------------------------------
+# Environment-specific library tables
+# sym-lib-table and fp-lib-table map logical library names to
+# filesystem paths (often containing machine-local variables
+# such as ${KICAD9_3RD_PARTY}).  Each contributor generates
+# their own; committing them breaks everyone else's setup.
+#
+# Exception: if your repo ships a *project-level* table that
+# uses only relative paths, remove these two lines and commit
+# it intentionally.
+# ------------------------------------------------------------
+sym-lib-table
+fp-lib-table
+
+# ------------------------------------------------------------
+# Fabrication outputs  (always regenerate from source)
+# ------------------------------------------------------------
+gerbers/
+*.gbr
+*.gtl
+*.gbl
+*.gts
+*.gbs
+*.gto
+*.gbo
+*.gm1
+*.gm2
+*.drl
+*.drl.rpt
+*.pos
+bom/
+*.xml
+*.csv
+
+# ------------------------------------------------------------
+# Operating systems
+# ------------------------------------------------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*                  # Stale NFS handles (open file on remote mount)
+
+# ------------------------------------------------------------
+# Editors & IDEs
+# ------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+\#*\#                  # Emacs auto-save
+
+# ------------------------------------------------------------
+# Python  (KiCad scripting, kikit, kicad-kbplacer, etc.)
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+
+# ============================================================
+# What SHOULD be tracked in a KiCad 9 library repository
+# ============================================================
+#
+#  Symbols
+#    *.kicad_sym          S-expression format (KiCad 6+), text-based,
+#                         diffs cleanly in Git
+#
+#  Footprints
+#    *.pretty/            Collection directory (one per logical library)
+#    └── *.kicad_mod      One file per footprint, S-expression format
+#
+#  3-D models
+#    *.3dshapes/
+#    ├── *.step           Preferred mechanical format (OCCT-based viewer)
+#    └── *.wrl            VRML for the legacy 3-D renderer
+#    Tip: if the model collection grows large, enable Git LFS for
+#    *.step and *.wrl to avoid bloating the pack files.
+#
+#  Metadata
+#    README.md
+#    LICENSE
+#    CHANGELOG.md
+# ============================================================
