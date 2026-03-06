@@ -208,16 +208,16 @@ def update_docs(
     if repo_json_path.exists():
         # Keep existing URL in case it was customised, just bump the timestamp
         repo_json = json.loads(repo_json_path.read_text(encoding="utf-8"))
-        repo_json["update_timestamp"] = update_timestamp
+        repo_json["packages"]["update_timestamp"] = update_timestamp
         print(f"Updated: {repo_json_path}  (update_timestamp refreshed)")
     else:
         repo_json = {
             "$schema": "https://go.kicad.org/pcm/schemas/v1",
             "name": meta.get("name", "KiCad Symbol Library"),
             "packages": {
-                "url": f"{pages_base}/packages.json"
+                "url": f"{pages_base}/packages.json",
+                "update_timestamp": update_timestamp
             },
-            "update_timestamp": update_timestamp
         }
         print(f"Written: {repo_json_path}  (first-time bootstrap)")
 
