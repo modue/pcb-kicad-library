@@ -103,24 +103,30 @@ jobs:
           fail_on_unmatched_files: true
 
       # ── 8. Commit updated docs/packages.json back to main ─────────────────
-      # This keeps the GitHub Pages index in sync with the new release.
-      # We commit directly to the default branch (main/master).
+      # We are already on a detached HEAD at the tagged commit.
+      # We must NOT do "git checkout main" after modifying files — Git will
+      # refuse because the working tree is dirty.  Instead we commit directly
+      # on top of the current HEAD and push to the default branch by name.
       - name: Commit updated packages.json
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Switch to the default branch
           DEFAULT_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
-          git fetch origin "${DEFAULT_BRANCH}"
-          git checkout "${DEFAULT_BRANCH}"
 
+          # Stage the generated files BEFORE any branch switch
           git add docs/packages.json docs/repository.json
-          git diff --cached --quiet && \
-            echo "No changes to docs/ — skipping commit." || \
-            git commit -m "chore: update PCM index for ${{ steps.version.outputs.tag }} [skip ci]"
 
-          git push origin "${DEFAULT_BRANCH}"
+          # If nothing changed, bail out early
+          if git diff --cached --quiet; then
+            echo "No changes to docs/ — skipping commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update PCM index for ${{ steps.version.outputs.tag }} [skip ci]"
+
+          # Push the new commit to the default branch (not the tag ref)
+          git push origin "HEAD:refs/heads/${DEFAULT_BRANCH}"
 
       # ── 9. Print summary ──────────────────────────────────────────────────
       - name: Write step summary
