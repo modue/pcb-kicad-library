@@ -96,7 +96,6 @@ $RECYCLE.BIN/
 # Python  (KiCad scripting, kikit, kicad-kbplacer, etc.)
 # ------------------------------------------------------------
 __pycache__/
-*.py[cod]
 *.pyo
 .env
 venv/
