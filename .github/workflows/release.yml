@@ -1,0 +1,146 @@
+# .github/workflows/release.yml
+#
+# Triggered when a version tag (v*) is pushed.
+# Builds the KiCad PCM ZIP, uploads it as a GitHub Release asset,
+# then commits the updated docs/packages.json back to the repo
+# so GitHub Pages always serves the latest package index.
+#
+# Full flow:
+#   git tag v1.2.0
+#   git push --tags
+#   → this workflow fires automatically
+
+name: Build and Publish PCM Release
+
+on:
+  push:
+    tags:
+      - "v*"           # triggers on v1.0.0, v2.3.1, etc.
+
+permissions:
+  contents: write      # needed to create GitHub Releases and push docs/
+
+jobs:
+  release:
+    name: Build PCM package and publish release
+    runs-on: ubuntu-24.04
+
+    steps:
+      # ── 1. Checkout full history (needed for git push back) ───────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 2. Python setup ───────────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # ── 3. Parse version from tag ─────────────────────────────────────────
+      # Tag is "v1.2.0" → VERSION becomes "1.2.0"
+      - name: Extract version
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME}"           # e.g. v1.2.0
+          VERSION="${TAG#v}"                 # strip leading "v" → 1.2.0
+          echo "tag=${TAG}"         >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "Version: ${VERSION}"
+
+      # ── 4. Validate metadata.json exists and is valid JSON ────────────────
+      - name: Validate metadata.json
+        run: |
+          if [ ! -f metadata.json ]; then
+            echo "::error file=metadata.json::metadata.json not found in repo root!"
+            exit 1
+          fi
+          python -c "import json, sys; json.load(open('metadata.json'))" && \
+            echo "metadata.json is valid JSON" || \
+            { echo "::error file=metadata.json::metadata.json is not valid JSON"; exit 1; }
+
+      # ── 5. Derive the download URL for the release asset ──────────────────
+      # The asset URL is deterministic — we know it before creating the release.
+      - name: Compute asset URL
+        id: urls
+        run: |
+          REPO="${{ github.repository }}"
+          TAG="${{ steps.version.outputs.tag }}"
+          URL="https://github.com/${REPO}/releases/download/${TAG}/library.zip"
+          echo "download_url=${URL}" >> "$GITHUB_OUTPUT"
+          echo "Asset URL: ${URL}"
+
+      # ── 6. Build the PCM ZIP and update docs/packages.json ────────────────
+      - name: Build release package
+        run: |
+          mkdir -p dist
+          python scripts/build_release.py \
+            --version    "${{ steps.version.outputs.version }}" \
+            --download-url "${{ steps.urls.outputs.download_url }}" \
+            --output-zip dist/library.zip \
+            --repo-root  .
+
+      # ── 7. Create GitHub Release and upload the ZIP asset ─────────────────
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: "Library ${{ steps.version.outputs.tag }}"
+          body: |
+            ## KiCad PCM Library — ${{ steps.version.outputs.tag }}
+
+            ### Installing via KiCad PCM
+            1. Open KiCad → **Plugin and Content Manager**
+            2. Click the **Repositories** tab → **`+`** button
+            3. Paste the repository URL (see your team's README)
+            4. Click **Refresh** → find the library → **Install**
+
+            ### Changelog
+            _Add your changes here, or link to CHANGELOG.md_
+          files: dist/library.zip
+          fail_on_unmatched_files: true
+
+      # ── 8. Commit updated docs/packages.json back to main ─────────────────
+      # This keeps the GitHub Pages index in sync with the new release.
+      # We commit directly to the default branch (main/master).
+      - name: Commit updated packages.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Switch to the default branch
+          DEFAULT_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+          git fetch origin "${DEFAULT_BRANCH}"
+          git checkout "${DEFAULT_BRANCH}"
+
+          git add docs/packages.json docs/repository.json
+          git diff --cached --quiet && \
+            echo "No changes to docs/ — skipping commit." || \
+            git commit -m "chore: update PCM index for ${{ steps.version.outputs.tag }} [skip ci]"
+
+          git push origin "${DEFAULT_BRANCH}"
+
+      # ── 9. Print summary ──────────────────────────────────────────────────
+      - name: Write step summary
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG="${{ steps.version.outputs.tag }}"
+          REPO="${{ github.repository }}"
+          OWNER=$(echo "$REPO" | cut -d/ -f1)
+          REPO_NAME=$(echo "$REPO" | cut -d/ -f2)
+
+          cat >> "$GITHUB_STEP_SUMMARY" << EOF
+          ## 📦 PCM Release ${TAG}
+
+          | Field | Value |
+          |-------|-------|
+          | Version | \`${VERSION}\` |
+          | ZIP asset | [library.zip](https://github.com/${REPO}/releases/download/${TAG}/library.zip) |
+          | PCM repository URL | \`https://${OWNER}.github.io/${REPO_NAME}/repository.json\` |
+
+          ### Next steps
+          - Enable **GitHub Pages** in repo Settings → Pages → Source: \`main\` branch, \`/docs\` folder (only needed once)
+          - Share the PCM URL above with your team
+          EOF
