@@ -1,24 +1,34 @@
 {
-    "$schema": "https://go.kicad.org/pcm/schemas/v1",
-    "packages": [
+  "$schema": "https://go.kicad.org/pcm/schemas/v1",
+  "packages": [
+    {
+      "$schema": "https://go.kicad.org/pcm/schemas/v1",
+      "name": "My KiCad Symbol Library",
+      "description": "Internal KiCad 9 symbol library with full component metadata",
+      "description_full": "Company symbol library. Every symbol includes Reference, Value, Footprint, Datasheet, Description, MPN, Manufacturer and IPN fields.\n\nMaintained by the hardware team.",
+      "identifier": "com.github.modue.pcb-kicad-library",
+      "type": "library",
+      "author": {
+        "name": "modue sp. z o.o.",
+        "contact": {
+          "web": "https://github.com/modue"
+        }
+      },
+      "license": "CC-BY-SA-4.0",
+      "resources": {
+        "homepage": "https://github.com/modue/pcb-kicad-library"
+      },
+      "versions": [
         {
-   	 "$schema": "https://go.kicad.org/pcm/schemas/v1",
-   	 "name": "My KiCad Symbol Library",
-   	 "description": "Internal KiCad 9 symbol library with full component metadata",
-   	 "description_full": "Company symbol library. Every symbol includes Reference, Value, Footprint, Datasheet, Description, MPN, Manufacturer and IPN fields.\n\nMaintained by the hardware team.",
-   	 "identifier": "com.github.modue.pcb-kicad-library",
-   	 "type": "library",
-   	 "author": {
-       			 "name": "modue sp. z o.o.",
-       			 "contact": {
-           			 "web": "https://github.com/modue"
-       				 }
-   		},
-   	 "license": "CC-BY-SA-4.0",
-   	 "resources": {
-       			 "homepage": "https://github.com/modue/pcb-kicad-library"
-   		 },
-   	 "versions": []
-	}
-    ]
+          "version": "060326_01",
+          "status": "stable",
+          "kicad_version": "9.0",
+          "download_url": "https://github.com/modue/pcb-kicad-library/releases/download/v060326_01/library.zip",
+          "download_sha256": "93b4404fc859ba298e31c09d16f1c09083c5825c05aeaacc1b28c1b2e51f70db",
+          "download_size": 500,
+          "install_size": 685
+        }
+      ]
+    }
+  ]
 }
