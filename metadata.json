@@ -1,7 +1,7 @@
 {
     "$schema": "https://go.kicad.org/pcm/schemas/v1",
-    "name": "My KiCad Symbol Library",
-    "description": "Internal KiCad 9 symbol library with full component metadata",
+    "name": "modue KiCad PCB Library",
+    "description": "modue internal KiCad 9 PCB library",
     "description_full": "Company symbol library. Every symbol includes Reference, Value, Footprint, Datasheet, Description, MPN, Manufacturer and IPN fields.\n\nMaintained by the hardware team.",
     "identifier": "com.github.modue.pcb-kicad-library",
     "type": "library",
