@@ -1,7 +1,8 @@
 {
-    "$schema": "https://go.kicad.org/pcm/schemas/v1",
-    "name": "modue KiCad Library Repository",
-    "packages": {
-        "url": "https://modue.github.io/pcb-kicad-library/docs/packages.json"
-    }
+  "$schema": "https://go.kicad.org/pcm/schemas/v1",
+  "name": "modue KiCad Library Repository",
+  "packages": {
+    "url": "https://modue.github.io/pcb-kicad-library/packages.json"
+  },
+  "update_timestamp": 1741262400
 }
