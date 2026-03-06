@@ -40,12 +40,17 @@ jobs:
           python-version: "3.12"
 
       # ── 3. Parse version from tag ─────────────────────────────────────────
-      # Tag is "v1.2.0" → VERSION becomes "1.2.0"
+      # Tag must use KiCad-compatible dot format: v26.306.1
+      # (regex: ^\d{1,4}(\.\d{1,4}(\.\d{1,6})?)?$)
       - name: Extract version
         id: version
         run: |
-          TAG="${GITHUB_REF_NAME}"           # e.g. v1.2.0
-          VERSION="${TAG#v}"                 # strip leading "v" → 1.2.0
+          TAG="${GITHUB_REF_NAME}"           # e.g. v26.306.1
+          VERSION="${TAG#v}"                 # strip leading "v" → 26.306.1
+          if ! echo "${VERSION}" | grep -qE '^\d{1,4}(\.\d{1,4}(\.\d{1,6})?)?$'; then
+            echo "::error::Tag version '${VERSION}' does not match KiCad PCM format: YY.MMDD.N (e.g. 26.306.1)"
+            exit 1
+          fi
           echo "tag=${TAG}"         >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "Version: ${VERSION}"

@@ -20,7 +20,7 @@
       },
       "versions": [
         {
-          "version": "060326_04",
+          "version": "26.306.4",
           "status": "stable",
           "kicad_version": "9.0",
           "download_url": "https://github.com/modue/pcb-kicad-library/releases/download/v060326_04/library.zip",
