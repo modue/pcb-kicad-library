@@ -23,7 +23,7 @@ What it does:
 Usage (called by GitHub Actions, but also runnable locally):
   python scripts/build_release.py \\
       --version 1.0.0 \\
-      --download-url https://github.com/modue/pcb-kicad-library/releases/download/v1.0.0/library.zip \\
+      --download-url https://github.com/OWNER/REPO/releases/download/v1.0.0/library.zip \\
       --output-zip dist/library.zip
 
 Requirements: Python 3.10+, zero external dependencies.
@@ -192,29 +192,39 @@ def update_docs(
     )
     print(f"\nWritten: {packages_json}")
 
-    # ── repository.json (bootstrap only if missing) ───────────────────────────
+    # ── repository.json (always rewritten to keep update_timestamp fresh) ───────
+    import time
     repo_json_path = docs / "repository.json"
-    if not repo_json_path.exists():
-        # Try to derive GitHub Pages URL from environment (set in Actions)
-        gh_repo    = os.environ.get("GITHUB_REPOSITORY", "OWNER/REPO")
-        owner, _   = gh_repo.split("/", 1) if "/" in gh_repo else ("OWNER", "REPO")
-        repo_name  = gh_repo.split("/")[-1] if "/" in gh_repo else "REPO"
-        pages_base = f"https://{owner}.github.io/{repo_name}"
 
+    # Derive GitHub Pages URL — when Pages source is set to /docs folder,
+    # files are served at the repo root URL (NOT under /docs/).
+    gh_repo    = os.environ.get("GITHUB_REPOSITORY", "OWNER/REPO")
+    owner      = gh_repo.split("/")[0] if "/" in gh_repo else "OWNER"
+    repo_name  = gh_repo.split("/")[-1] if "/" in gh_repo else "REPO"
+    pages_base = f"https://{owner}.github.io/{repo_name}"
+
+    update_timestamp = int(time.time())
+
+    if repo_json_path.exists():
+        # Keep existing URL in case it was customised, just bump the timestamp
+        repo_json = json.loads(repo_json_path.read_text(encoding="utf-8"))
+        repo_json["update_timestamp"] = update_timestamp
+        print(f"Updated: {repo_json_path}  (update_timestamp refreshed)")
+    else:
         repo_json = {
             "$schema": "https://go.kicad.org/pcm/schemas/v1",
             "name": meta.get("name", "KiCad Symbol Library"),
             "packages": {
                 "url": f"{pages_base}/packages.json"
-            }
+            },
+            "update_timestamp": update_timestamp
         }
-        repo_json_path.write_text(
-            json.dumps(repo_json, indent=2, ensure_ascii=False),
-            encoding="utf-8"
-        )
-        print(f"Written: {repo_json_path}  (bootstrap — commit this file!)")
-    else:
-        print(f"Skipped: {repo_json_path}  (already exists)")
+        print(f"Written: {repo_json_path}  (first-time bootstrap)")
+
+    repo_json_path.write_text(
+        json.dumps(repo_json, indent=2, ensure_ascii=False),
+        encoding="utf-8"
+    )
 
     # Print the URL users need to paste into KiCad PCM
     repo_data  = json.loads(repo_json_path.read_text())
