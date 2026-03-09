@@ -69,7 +69,7 @@ Przykład — jeśli repozytorium jest w `~/Documents/modue/KiCad/pcb-kicad-libr
 
 **Ścieżka modelu 3D w footprincie będzie wtedy:**
 ```
-${KICAD_USER_MODUE_DIR}/pcb-kicad-library/3dmodels/modue_DFN_QFN.3dshapes/QFN-56.step
+${KICAD_USER_MODUE_DIR}/pcb-kicad-library/3dmodels/modue_DFN_QFN.3dshapes/QFN-56-1EP_7x7mm_P0.4mm_EP4x4mm.step
 ```
 
 ### 3. Dodaj biblioteki symboli do KiCad
@@ -168,7 +168,7 @@ Każdy symbol (z wyjątkiem symboli zasilania: `#PWR`, `#FLG`) musi mieć wypeł
 | `Description`  | Krótki opis komponentu                            | `Wi-Fi + BT MCU, 240 MHz`       |
 | `MPN`          | Manufacturer Part Number                          | `ESP32-S3-WROOM-1-N8`           |
 | `Manufacturer` | Nazwa producenta                                  | `Espressif`                     |
-| `IPN`          | Internal Part Number (wewnętrzny numer katalogowy)| `IC-0042`                       |
+| `IPN`          | modue Internal Part Number (wewnętrzny numer katalogowy)| `MELP100129`                       |
 
 Pole `Footprint` musi referencować footprint **istniejący w tym repozytorium** — walidacja sprawdza to automatycznie.
 
@@ -214,10 +214,10 @@ vYY.MMDD.N
 | Segment | Znaczenie                        | Przykład     |
 |---------|----------------------------------|--------------|
 | `YY`    | Rok (2 cyfry)                    | `26`         |
-| `MMDD`  | Miesiąc i dzień (bez zer wiodących) | `309` (9 marca) |
+| `MMDD`  | Miesiąc i dzień | `0309` (9 marca) |
 | `N`     | Numer release'u w danym dniu     | `1`, `2`, `3`|
 
-Przykłady: `v26.309.1`, `v26.309.2`, `v26.1224.1`
+Przykłady: `v26.0309.1`, `v26.0309.2`, `v26.1224.1`
 
 ### Procedura release'u
 
@@ -226,8 +226,8 @@ Przykłady: `v26.309.1`, `v26.309.2`, `v26.1224.1`
 git status
 
 # 2. Utwórz i wypchnij tag
-git tag v26.309.1
-git push origin v26.309.1
+git tag v26.0309.1
+git push origin v26.0309.1
 ```
 
 ### Co robi pipeline release'u
