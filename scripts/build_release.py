@@ -33,8 +33,47 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import zipfile
 from pathlib import Path
+
+# Matches any path ending with   SomeName.3dshapes/ModelFile.ext
+# regardless of what prefix came before (env var, absolute, relative).
+_MODEL_PATH_RE = re.compile(
+    r'([\w][\w\-\.]*\.3dshapes/[\w\-\.]+\.(?:step|stp|wrl|wrz))',
+    re.IGNORECASE,
+)
+
+
+def rewrite_3d_model_paths(content: str, identifier: str) -> str:
+    """
+    Rewrite 3D model paths inside a .kicad_mod file so they point to the
+    PCM-installed location instead of the local development path.
+
+    Development path example:
+      ${KICAD_USER_MODUE_DIR}/pcb-kicad-library/3dmodels/
+          modue_DFN_QFN.3dshapes/QFN-56.step
+
+    Installed path (output):
+      ${KICAD_USER_TEMPLATE_DIR}/../3rdparty/3dmodels/
+          com.github.modue.pcb-kicad-library/modue_DFN_QFN.3dshapes/QFN-56.step
+
+    Only the portion from `*.3dshapes/model.ext` onward is preserved;
+    the prefix is always replaced with the PCM base path.
+    """
+    pcm_base = f"${{KICAD_USER_TEMPLATE_DIR}}/../3rdparty/3dmodels/{identifier}"
+
+    def _replace_model_value(m: re.Match) -> str:
+        full_path = m.group(2)
+        # Extract just the "SomeName.3dshapes/ModelFile.ext" tail
+        shapes_match = _MODEL_PATH_RE.search(full_path)
+        if shapes_match:
+            new_path = f"{pcm_base}/{shapes_match.group(1)}"
+            return f"{m.group(1)}{new_path}{m.group(3)}"
+        return m.group(0)  # no .3dshapes pattern found — leave unchanged
+
+    model_expr_re = re.compile(r'(\(model\s+")([^"]+)(")', re.IGNORECASE)
+    return model_expr_re.sub(_replace_model_value, content)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -80,6 +119,12 @@ def build_zip(repo_root: Path, output_zip: Path):
     """
     output_zip.parent.mkdir(parents=True, exist_ok=True)
 
+    # Read the package identifier from metadata.json (needed for 3D path rewrite)
+    meta_src = repo_root / "metadata.json"
+    identifier = json.loads(meta_src.read_text(encoding="utf-8")).get(
+        "identifier", "com.example.library"
+    )
+
     with zipfile.ZipFile(output_zip, "w", compression=zipfile.ZIP_DEFLATED) as zf:
 
         # ── symbols/ ─────────────────────────────────────────────────────────
@@ -87,8 +132,12 @@ def build_zip(repo_root: Path, output_zip: Path):
             # Skip anything inside docs/, dist/, scripts/, .github/
             if any(part in sym.parts for part in ("docs", "dist", "scripts", ".github")):
                 continue
-            arcname = f"symbols/{sym.name}"
-            print(f"  + {arcname}")
+            # Rename modue_X.kicad_sym → modue_PROD_X.kicad_sym so the
+            # production-installed library has a distinct name from the
+            # development copy open in the same KiCad instance.
+            prod_name = sym.name.replace("modue_", "modue_PROD_", 1)
+            arcname = f"symbols/{prod_name}"
+            print(f"  + {arcname}  (renamed from {sym.name})")
             zf.write(sym, arcname)
 
         # ── footprints/ ──────────────────────────────────────────────────────
@@ -99,8 +148,15 @@ def build_zip(repo_root: Path, output_zip: Path):
                 if fp_file.is_file():
                     rel = fp_file.relative_to(repo_root)
                     arcname = f"footprints/{rel}"
-                    print(f"  + {arcname}")
-                    zf.write(fp_file, arcname)
+                    if fp_file.suffix == ".kicad_mod":
+                        # Rewrite local 3D model paths → PCM-installed paths
+                        content = fp_file.read_text(encoding="utf-8")
+                        content = rewrite_3d_model_paths(content, identifier)
+                        print(f"  + {arcname}  (3D model paths rewritten)")
+                        zf.writestr(arcname, content)
+                    else:
+                        print(f"  + {arcname}")
+                        zf.write(fp_file, arcname)
 
         # ── 3dmodels/ ────────────────────────────────────────────────────────
         for shapes in find_3dshapes_dirs(repo_root):
@@ -120,7 +176,6 @@ def build_zip(repo_root: Path, output_zip: Path):
             zf.write(icon, "resources/icon.png")
 
         # ── metadata.json (archive copy — without download_* fields) ─────────
-        meta_src = repo_root / "metadata.json"
         if not meta_src.exists():
             raise FileNotFoundError(
                 "metadata.json not found in repo root. "
