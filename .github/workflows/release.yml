@@ -21,9 +21,27 @@ permissions:
   contents: write      # needed to create GitHub Releases and push docs/
 
 jobs:
+  validate:
+    name: Validate KiCad symbols (strict)
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate symbol properties
+        run: |
+          python scripts/validate_symbols.py --strict
+
   release:
     name: Build PCM package and publish release
     runs-on: ubuntu-24.04
+    needs: validate
 
     steps:
       # ── 1. Checkout full history (needed for git push back) ───────────────

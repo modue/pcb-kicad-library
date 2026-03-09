@@ -42,7 +42,7 @@ env:
     IPN
 
   # Set to "false" to make the job fail when violations are found.
-  WARN_ONLY: "true"
+  WARN_ONLY: "false"
 
 jobs:
   validate-symbols:

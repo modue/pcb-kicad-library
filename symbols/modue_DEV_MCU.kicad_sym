@@ -60,7 +60,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "ESP32-S3"
+		(property "MPN" "ESP32-S3"
 			(at 0 0 0)
 			(effects
 				(font
@@ -69,7 +69,7 @@
 				(hide yes)
 			)
 		)
-		(property "modue Internal Part Number" "MELP100130"
+		(property "IPN" "MELP100130"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1265,7 +1265,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "ESP32-S3R8"
+		(property "MPN" "ESP32-S3R8"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1274,7 +1274,7 @@
 				(hide yes)
 			)
 		)
-		(property "modue Internal Part Number" "MELP100128"
+		(property "IPN" "MELP100128"
 			(at 0 0 0)
 			(effects
 				(font
@@ -2470,7 +2470,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "ESP32-S3RH2"
+		(property "MPN" "ESP32-S3RH2"
 			(at 0 0 0)
 			(effects
 				(font
@@ -2479,7 +2479,7 @@
 				(hide yes)
 			)
 		)
-		(property "modue Internal Part Number" "MELP100129"
+		(property "IPN" "MELP100129"
 			(at 0 0 0)
 			(effects
 				(font
