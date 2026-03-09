@@ -2,27 +2,27 @@
 """
 validate_symbols.py
 -------------------
-Validates KiCad 9 .kicad_sym library files against a configurable set of
-required symbol properties.
+Validates KiCad 9 .kicad_sym library files and related assets.
 
-KiCad 9 stores libraries in S-expression format.  Each symbol looks like:
+Checks performed
+----------------
+1. **Symbol property check** – every non-power symbol must have the required
+   property fields (Reference, Value, Footprint, Datasheet, Description, MPN,
+   Manufacturer, IPN by default) with non-empty values.
 
-  (symbol "U_Something"
-    ...
-    (property "Reference"   "U"  ...)
-    (property "Value"       "SomeIC" ...)
-    (property "Footprint"   "Package_SO:SOIC-8" ...)
-    (property "Datasheet"   "https://..." ...)
-    (property "Description" "8-bit MCU" ...)
-    (property "MPN"         "ATtiny85-20PU" ...)
-    (property "Manufacturer" "Microchip" ...)
-    (property "IPN"         "IC-0042" ...)
-    ...
-  )
+2. **Symbol → footprint reference check** – the Footprint property of each
+   symbol must refer to a footprint that actually exists in the repo's
+   footprints/ directory (format: LibraryName:FootprintName).
+   Skipped when footprints/ contains no .kicad_mod files.
+
+3. **Footprint → 3-D model check** – every footprint (.kicad_mod) in the
+   repo's footprints/ directory must have a matching .step file (same stem
+   name) anywhere under the repo's 3dmodels/ directory.
+   Skipped when footprints/ contains no .kicad_mod files.
 
 Exit codes
 ----------
-  0  – all symbols pass (or --warn-only is set)
+  0  – all checks pass (or --warn-only is set)
   1  – one or more violations found AND --warn-only is NOT set
 """
 
@@ -33,10 +33,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
-# ── Configuration ────────────────────────────────────────────────────────────
+# ── Configuration ─────────────────────────────────────────────────────────────
 
-# Canonical list of required property names.
-# Change here OR override via --required-fields CLI argument.
 DEFAULT_REQUIRED_FIELDS: list[str] = [
     "Reference",
     "Value",
@@ -45,16 +43,12 @@ DEFAULT_REQUIRED_FIELDS: list[str] = [
     "Description",
     "MPN",
     "Manufacturer",
-    "IPN",          # ← rename this to match your actual internal field name
+    "IPN",
 ]
 
-# Symbols whose Reference prefix appears in this set are treated as
-# "power symbols" and are exempt from the full property check.
-# KiCad ships PWR_FLAG, VCC, GND, etc. as power symbols.
+# Symbols whose Reference prefix appears here are exempt from property checks.
 POWER_PREFIXES: frozenset[str] = frozenset({"#PWR", "#FLG", "PWR", "#"})
 
-# Regex that matches a non-empty, non-placeholder value.
-# A property whose value is exactly "~" is KiCad's way of marking it blank.
 _BLANK_VALUE_RE = re.compile(r'^\s*$|^~$')
 
 # ── Data structures ───────────────────────────────────────────────────────────
@@ -69,14 +63,24 @@ class Violation:
     def lines(self) -> list[str]:
         out = []
         if self.missing_fields:
-            out.append(
-                f"  ✗ missing properties: {', '.join(self.missing_fields)}"
-            )
+            out.append(f"  ✗ missing properties: {', '.join(self.missing_fields)}")
         if self.empty_fields:
-            out.append(
-                f"  ✗ empty properties:   {', '.join(self.empty_fields)}"
-            )
+            out.append(f"  ✗ empty properties:   {', '.join(self.empty_fields)}")
         return out
+
+
+@dataclass
+class FootprintRefViolation:
+    library: str
+    symbol: str
+    footprint_value: str
+    reason: str   # "bad_format" | "missing_library" | "missing_footprint"
+
+
+@dataclass
+class Model3dViolation:
+    footprint_lib: str
+    footprint_name: str
 
 
 # ── S-expression parser (minimal, single-pass) ────────────────────────────────
@@ -89,13 +93,6 @@ def _unescape(s: str) -> str:
 
 
 def _tokenise(text: str):
-    """
-    Yield tokens from an S-expression string.
-    Tokens are: '(', ')', or a string atom (quoted or bare).
-    This is a hand-rolled lexer because the standard `sexpdata` library is not
-    available in the GitHub Actions ubuntu runner without extra install steps,
-    and we want zero external dependencies.
-    """
     i = 0
     n = len(text)
     while i < n:
@@ -109,11 +106,10 @@ def _tokenise(text: str):
             yield ')'
             i += 1
         elif c == '"':
-            # quoted string – respect escaped quotes
             j = i + 1
             while j < n:
                 if text[j] == '\\':
-                    j += 2          # skip escaped char
+                    j += 2
                 elif text[j] == '"':
                     j += 1
                     break
@@ -122,7 +118,6 @@ def _tokenise(text: str):
             yield text[i:j]
             i = j
         else:
-            # bare atom (no spaces, no parens, no quotes)
             j = i
             while j < n and text[j] not in ' \t\r\n()\"':
                 j += 1
@@ -134,25 +129,12 @@ def parse_symbol_properties(lib_text: str) -> dict[str, dict[str, str]]:
     """
     Return {symbol_name: {property_name: property_value}} for every
     top-level symbol in the library.
-
-    The KiCad 9 grammar relevant here is:
-      (kicad_symbol_lib
-        (symbol "<name>"
-          ...
-          (property "<key>" "<value>" ...)
-          ...
-          (symbol "<name>_0_1" ...)   ← sub-symbol, skip for property purposes
-        )
-      )
-
-    Sub-symbols (units / body styles) inherit their parent's properties, so we
-    only inspect the top-level (depth-1) symbol nodes.
     """
     tokens = list(_tokenise(lib_text))
     symbols: dict[str, dict[str, str]] = {}
 
     i = 0
-    depth = 0                    # paren depth relative to file root
+    depth = 0
     current_symbol: Optional[str] = None
     current_symbol_depth: int = 0
 
@@ -161,21 +143,16 @@ def parse_symbol_properties(lib_text: str) -> dict[str, dict[str, str]]:
 
         if tok == '(':
             depth += 1
-            # Look ahead: is the next atom "symbol" at depth 1 (top-level)?
             if (depth == 2
                     and i + 2 < len(tokens)
                     and tokens[i + 1] == 'symbol'
                     and current_symbol is None):
                 name = _unescape(tokens[i + 2])
-                # Skip sub-symbols (contain '_' followed by digits at the end)
-                # KiCad names them "ParentName_unitIndex_bodyStyle"
                 if not re.search(r'_\d+_\d+$', name):
                     current_symbol = name
                     current_symbol_depth = depth
                     symbols[name] = {}
 
-            # Look ahead: is this a "property" node directly inside a top-level
-            # symbol (depth == current_symbol_depth + 1)?
             elif (current_symbol is not None
                     and depth == current_symbol_depth + 1
                     and i + 3 < len(tokens)
@@ -199,7 +176,7 @@ def parse_symbol_properties(lib_text: str) -> dict[str, dict[str, str]]:
     return symbols
 
 
-# ── Validation logic ──────────────────────────────────────────────────────────
+# ── Check 1: Symbol property validation ───────────────────────────────────────
 
 def is_power_symbol(props: dict[str, str]) -> bool:
     ref = props.get("Reference", "")
@@ -217,107 +194,271 @@ def validate_library(
     for sym_name, props in symbols.items():
         if is_power_symbol(props):
             continue
-
         missing, empty = [], []
         for field_name in required_fields:
             if field_name not in props:
                 missing.append(field_name)
             elif _BLANK_VALUE_RE.match(props[field_name]):
                 empty.append(field_name)
-
         if missing or empty:
-            violations.append(
-                Violation(
-                    library=lib_path.name,
-                    symbol=sym_name,
-                    missing_fields=missing,
-                    empty_fields=empty,
-                )
-            )
+            violations.append(Violation(
+                library=lib_path.name, symbol=sym_name,
+                missing_fields=missing, empty_fields=empty,
+            ))
 
+    return violations
+
+
+# ── Check 2 & 3: Footprint / 3-D model discovery ─────────────────────────────
+
+def find_available_footprints(repo_root: Path) -> dict[str, set[str]]:
+    """
+    Returns {lib_name: {footprint_stem, ...}} for all .kicad_mod files found
+    under repo_root/footprints/**/*.pretty/
+    """
+    libs: dict[str, set[str]] = {}
+    fp_root = repo_root / "footprints"
+    if not fp_root.is_dir():
+        return libs
+    for kicad_mod in sorted(fp_root.rglob("*.kicad_mod")):
+        lib_name = kicad_mod.parent.stem   # "modue_QFN_DFN" from "modue_QFN_DFN.pretty"
+        libs.setdefault(lib_name, set()).add(kicad_mod.stem)
+    return libs
+
+
+def find_available_3d_models(repo_root: Path) -> set[str]:
+    """
+    Returns the set of .step file stems found anywhere under repo_root/3dmodels/
+    """
+    models_root = repo_root / "3dmodels"
+    if not models_root.is_dir():
+        return set()
+    return {p.stem for p in models_root.rglob("*.step")}
+
+
+def validate_symbol_footprint_refs(
+    lib_path: Path,
+    symbols: dict[str, dict[str, str]],
+    available_footprints: dict[str, set[str]],
+) -> list[FootprintRefViolation]:
+    """
+    Check that each symbol's Footprint property references a footprint that
+    exists in the repo's footprints/ directory.
+    """
+    violations: list[FootprintRefViolation] = []
+    for sym_name, props in symbols.items():
+        if is_power_symbol(props):
+            continue
+        fp_value = props.get("Footprint", "").strip()
+        if not fp_value or _BLANK_VALUE_RE.match(fp_value):
+            continue  # blank already caught by property validator
+
+        if ":" not in fp_value:
+            violations.append(FootprintRefViolation(
+                library=lib_path.name, symbol=sym_name,
+                footprint_value=fp_value, reason="bad_format",
+            ))
+            continue
+
+        lib_name, fp_name = fp_value.split(":", 1)
+        if lib_name not in available_footprints:
+            violations.append(FootprintRefViolation(
+                library=lib_path.name, symbol=sym_name,
+                footprint_value=fp_value, reason="missing_library",
+            ))
+        elif fp_name not in available_footprints[lib_name]:
+            violations.append(FootprintRefViolation(
+                library=lib_path.name, symbol=sym_name,
+                footprint_value=fp_value, reason="missing_footprint",
+            ))
+
+    return violations
+
+
+def validate_footprint_3d_models(
+    available_footprints: dict[str, set[str]],
+    available_3d_models: set[str],
+) -> list[Model3dViolation]:
+    """
+    Check that every footprint in footprints/ has a matching .step file
+    (by stem name) anywhere in 3dmodels/.
+    """
+    violations: list[Model3dViolation] = []
+    for lib_name, fps in sorted(available_footprints.items()):
+        for fp_name in sorted(fps):
+            if fp_name not in available_3d_models:
+                violations.append(Model3dViolation(
+                    footprint_lib=lib_name, footprint_name=fp_name,
+                ))
     return violations
 
 
 # ── Output formatting ─────────────────────────────────────────────────────────
 
 def emit_github_annotations(violations: list[Violation], lib_path: Path):
-    """
-    Print GitHub Actions workflow commands so that violations appear as
-    inline annotations on the Files-changed tab of a PR.
-    Format: ::warning file=<path>,title=<title>::<message>
-    """
     for v in violations:
         parts = []
         if v.missing_fields:
             parts.append(f"missing: {', '.join(v.missing_fields)}")
         if v.empty_fields:
             parts.append(f"empty: {', '.join(v.empty_fields)}")
-        msg = " | ".join(parts)
         print(
             f"::warning file={lib_path},"
-            f"title=Symbol '{v.symbol}' property violation::{msg}"
+            f"title=Symbol '{v.symbol}' property violation::"
+            + " | ".join(parts)
+        )
+
+
+def emit_fp_ref_annotations(violations: list[FootprintRefViolation]):
+    reason_label = {
+        "bad_format":        "Footprint reference has no ':' separator",
+        "missing_library":   "Footprint library not found in footprints/",
+        "missing_footprint": "Footprint not found in library directory",
+    }
+    for v in violations:
+        print(
+            f"::warning file=symbols/{v.library},"
+            f"title=Symbol '{v.symbol}' footprint reference invalid::"
+            f"{reason_label.get(v.reason, v.reason)}: {v.footprint_value}"
+        )
+
+
+def emit_3d_annotations(violations: list[Model3dViolation]):
+    for v in violations:
+        fp_path = f"footprints/{v.footprint_lib}.pretty/{v.footprint_name}.kicad_mod"
+        print(
+            f"::warning file={fp_path},"
+            f"title=Missing 3D model for '{v.footprint_name}'::"
+            f"Expected {v.footprint_name}.step in 3dmodels/"
         )
 
 
 def emit_summary(
-    all_violations: dict[Path, list[Violation]],
+    all_prop_violations:   dict[Path, list[Violation]],
+    all_fp_ref_violations: list[FootprintRefViolation],
+    all_3d_violations:     list[Model3dViolation],
     required_fields: list[str],
     warn_only: bool,
+    fp_check_ran: bool,
 ):
-    total = sum(len(v) for v in all_violations.values())
+    import os
 
-    # ── GitHub Step Summary (written to $GITHUB_STEP_SUMMARY if available) ──
+    prop_total   = sum(len(v) for v in all_prop_violations.values())
+    total_issues = prop_total + len(all_fp_ref_violations) + len(all_3d_violations)
+
     summary_lines = [
-        "## KiCad Symbol Validation Report\n",
-        f"**Required fields:** `{'`, `'.join(required_fields)}`\n",
+        "## KiCad Symbol & Footprint Validation Report\n\n",
+        f"**Required fields:** `{'`, `'.join(required_fields)}`  \n",
+        f"**Mode:** {'warn-only (non-blocking)' if warn_only else 'strict (blocking)'}  \n\n",
     ]
 
-    if total == 0:
-        summary_lines.append("### ✅ All symbols passed validation\n")
+    # ── 1. Property check ─────────────────────────────────────────────────────
+    summary_lines.append("### 1. Symbol property check\n")
+    if prop_total == 0:
+        summary_lines.append("✅ All symbols passed.\n\n")
     else:
-        summary_lines.append(
-            f"### ⚠️ {total} symbol(s) with property violations\n"
-        )
-        for lib_path, violations in all_violations.items():
+        summary_lines.append(f"⚠️ {prop_total} symbol(s) with property violations\n\n")
+        for lib_path, violations in all_prop_violations.items():
             if not violations:
                 continue
-            summary_lines.append(f"\n#### `{lib_path}`\n")
+            summary_lines.append(f"#### `{lib_path}`\n")
             summary_lines.append("| Symbol | Missing | Empty |\n")
             summary_lines.append("|--------|---------|-------|\n")
             for v in violations:
                 m = ", ".join(v.missing_fields) or "—"
                 e = ", ".join(v.empty_fields)   or "—"
                 summary_lines.append(f"| `{v.symbol}` | {m} | {e} |\n")
+        summary_lines.append("\n")
 
-    import os
+    # ── 2. Footprint reference check ──────────────────────────────────────────
+    summary_lines.append("### 2. Symbol → footprint reference check\n")
+    if not fp_check_ran:
+        summary_lines.append("ℹ️ Skipped — no .kicad_mod files found in footprints/.\n\n")
+    elif not all_fp_ref_violations:
+        summary_lines.append("✅ All footprint references are valid.\n\n")
+    else:
+        summary_lines.append(f"⚠️ {len(all_fp_ref_violations)} invalid footprint reference(s)\n\n")
+        summary_lines.append("| Library | Symbol | Footprint reference | Issue |\n")
+        summary_lines.append("|---------|--------|---------------------|-------|\n")
+        for v in all_fp_ref_violations:
+            label = {
+                "bad_format":        "bad format (missing `:`)",
+                "missing_library":   "library not in footprints/",
+                "missing_footprint": "footprint not found in library",
+            }.get(v.reason, v.reason)
+            summary_lines.append(
+                f"| `{v.library}` | `{v.symbol}` | `{v.footprint_value}` | {label} |\n"
+            )
+        summary_lines.append("\n")
+
+    # ── 3. 3-D model check ────────────────────────────────────────────────────
+    summary_lines.append("### 3. Footprint → 3-D model check\n")
+    if not fp_check_ran:
+        summary_lines.append("ℹ️ Skipped — no .kicad_mod files found in footprints/.\n\n")
+    elif not all_3d_violations:
+        summary_lines.append("✅ All footprints have a matching .step model.\n\n")
+    else:
+        summary_lines.append(f"⚠️ {len(all_3d_violations)} footprint(s) missing a .step model\n\n")
+        summary_lines.append("| Footprint library | Footprint | Expected model |\n")
+        summary_lines.append("|-------------------|-----------|----------------|\n")
+        for v in all_3d_violations:
+            summary_lines.append(
+                f"| `{v.footprint_lib}` | `{v.footprint_name}` | `{v.footprint_name}.step` |\n"
+            )
+        summary_lines.append("\n")
+
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:
         with open(summary_path, "a", encoding="utf-8") as f:
             f.writelines(summary_lines)
 
-    # ── stdout report ────────────────────────────────────────────────────────
+    # ── stdout ────────────────────────────────────────────────────────────────
     print("=" * 70)
-    print("KiCad 9 Symbol Validator")
+    print("KiCad 9 Symbol & Footprint Validator")
     print("=" * 70)
     print(f"Required fields : {', '.join(required_fields)}")
     print(f"Mode            : {'warn-only (non-blocking)' if warn_only else 'strict (blocking)'}")
     print()
 
-    if total == 0:
-        print("✅  All symbols passed.")
+    # 1
+    if prop_total == 0:
+        print("✅  [1] All symbols passed property check.")
     else:
-        for lib_path, violations in all_violations.items():
+        for lib_path, violations in all_prop_violations.items():
             if not violations:
-                print(f"✅  {lib_path}  — OK")
+                print(f"✅  [1] {lib_path}  — OK")
                 continue
-            print(f"⚠️  {lib_path}  ({len(violations)} violation(s))")
+            print(f"⚠️  [1] {lib_path}  ({len(violations)} violation(s))")
             for v in violations:
                 print(f"  Symbol: {v.symbol}")
                 for line in v.lines():
                     print(line)
-            print()
-        print(f"Total violations: {total}")
+        print(f"Property violations total: {prop_total}")
+    print()
 
+    # 2
+    if not fp_check_ran:
+        print("ℹ️  [2] Footprint reference check skipped (no .kicad_mod files).")
+    elif not all_fp_ref_violations:
+        print("✅  [2] All footprint references valid.")
+    else:
+        print(f"⚠️  [2] {len(all_fp_ref_violations)} invalid footprint reference(s):")
+        for v in all_fp_ref_violations:
+            print(f"  {v.library} / {v.symbol}: {v.footprint_value} [{v.reason}]")
+    print()
+
+    # 3
+    if not fp_check_ran:
+        print("ℹ️  [3] 3-D model check skipped (no .kicad_mod files).")
+    elif not all_3d_violations:
+        print("✅  [3] All footprints have matching .step models.")
+    else:
+        print(f"⚠️  [3] {len(all_3d_violations)} footprint(s) missing .step model:")
+        for v in all_3d_violations:
+            print(f"  {v.footprint_lib}:{v.footprint_name} → {v.footprint_name}.step missing")
+    print()
+
+    print(f"Total issues: {total_issues}")
     print("=" * 70)
 
 
@@ -325,14 +466,13 @@ def emit_summary(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Validate KiCad 9 symbol library property fields."
+        description="Validate KiCad 9 symbol properties, footprint references, and 3D models."
     )
     parser.add_argument(
         "libraries",
         nargs="*",
         type=Path,
-        help="Paths to .kicad_sym files.  If omitted, the current directory "
-             "is scanned recursively.",
+        help="Paths to .kicad_sym files. If omitted, the current directory is scanned recursively.",
     )
     parser.add_argument(
         "--required-fields",
@@ -353,11 +493,19 @@ def main():
         default=False,
         help="Exit with code 1 when violations are found (overrides --warn-only).",
     )
+    parser.add_argument(
+        "--repo-root",
+        type=Path,
+        default=Path("."),
+        metavar="DIR",
+        help="Repository root used to locate footprints/ and 3dmodels/ (default: current dir).",
+    )
     args = parser.parse_args()
 
     warn_only = args.warn_only and not args.strict
+    repo_root = args.repo_root.resolve()
 
-    # Collect library files
+    # ── Collect symbol library files ──────────────────────────────────────────
     if args.libraries:
         lib_files = [p for p in args.libraries if p.suffix == ".kicad_sym"]
     else:
@@ -367,17 +515,51 @@ def main():
         print("No .kicad_sym files found.")
         sys.exit(0)
 
-    all_violations: dict[Path, list[Violation]] = {}
+    # ── Discover footprints and 3-D models ────────────────────────────────────
+    available_footprints = find_available_footprints(repo_root)
+    available_3d_models  = find_available_3d_models(repo_root)
+    fp_check_ran = bool(available_footprints)
+
+    # ── Check 1 + 2: per-library ──────────────────────────────────────────────
+    all_prop_violations: dict[Path, list[Violation]] = {}
+    all_fp_ref_violations: list[FootprintRefViolation] = []
+
     for lib_path in sorted(lib_files):
-        violations = validate_library(lib_path, args.required_fields)
-        all_violations[lib_path] = violations
-        if violations:
-            emit_github_annotations(violations, lib_path)
+        prop_violations = validate_library(lib_path, args.required_fields)
+        all_prop_violations[lib_path] = prop_violations
+        if prop_violations:
+            emit_github_annotations(prop_violations, lib_path)
 
-    emit_summary(all_violations, args.required_fields, warn_only)
+        if fp_check_ran:
+            text = lib_path.read_text(encoding="utf-8")
+            symbols = parse_symbol_properties(text)
+            fp_violations = validate_symbol_footprint_refs(lib_path, symbols, available_footprints)
+            if fp_violations:
+                emit_fp_ref_annotations(fp_violations)
+            all_fp_ref_violations.extend(fp_violations)
 
-    total = sum(len(v) for v in all_violations.values())
-    if total > 0 and not warn_only:
+    # ── Check 3: footprint → 3-D model ───────────────────────────────────────
+    all_3d_violations: list[Model3dViolation] = []
+    if fp_check_ran:
+        all_3d_violations = validate_footprint_3d_models(available_footprints, available_3d_models)
+        if all_3d_violations:
+            emit_3d_annotations(all_3d_violations)
+
+    emit_summary(
+        all_prop_violations,
+        all_fp_ref_violations,
+        all_3d_violations,
+        args.required_fields,
+        warn_only,
+        fp_check_ran,
+    )
+
+    total_issues = (
+        sum(len(v) for v in all_prop_violations.values())
+        + len(all_fp_ref_violations)
+        + len(all_3d_violations)
+    )
+    if total_issues > 0 and not warn_only:
         sys.exit(1)
     sys.exit(0)
 

@@ -87,12 +87,8 @@ def build_zip(repo_root: Path, output_zip: Path):
             # Skip anything inside docs/, dist/, scripts/, .github/
             if any(part in sym.parts for part in ("docs", "dist", "scripts", ".github")):
                 continue
-            # Rename modue_X.kicad_sym → modue_PROD_X.kicad_sym so the
-            # production-installed library has a distinct name from the
-            # development copy open in the same KiCad instance.
-            prod_name = sym.name.replace("modue_", "modue_PROD_", 1)
-            arcname = f"symbols/{prod_name}"
-            print(f"  + {arcname}  (renamed from {sym.name})")
+            arcname = f"symbols/{sym.name}"
+            print(f"  + {arcname}")
             zf.write(sym, arcname)
 
         # ── footprints/ ──────────────────────────────────────────────────────
