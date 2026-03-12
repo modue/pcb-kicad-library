@@ -60,7 +60,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ESP32-S3"
+		(property "Manufacturer PN" "ESP32-S3"
 			(at 0 0 0)
 			(effects
 				(font
@@ -69,7 +69,16 @@
 				(hide yes)
 			)
 		)
-		(property "IPN" "MELP100130"
+		(property "modue PN" "MELP100130"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLC PN" "C2913192"
 			(at 0 0 0)
 			(effects
 				(font
@@ -86,7 +95,7 @@
 				)
 			)
 		)
-		(property "ki_keywords" "Microcontroller Wi-Fi BT ESP ESP32 Espressif"
+		(property "ki_keywords" "Microcontroller Wi-Fi BT ESP ESP32 Espressif 32bit"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1265,7 +1274,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ESP32-S3R8"
+		(property "Manufacturer PN" "ESP32-S3R8"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1274,7 +1283,16 @@
 				(hide yes)
 			)
 		)
-		(property "IPN" "MELP100128"
+		(property "modue PN" "MELP100128"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLC PN" "C2913194"
 			(at 0 0 0)
 			(effects
 				(font
@@ -2470,7 +2488,7 @@
 				(hide yes)
 			)
 		)
-		(property "MPN" "ESP32-S3RH2"
+		(property "Manufacturer PN" "ESP32-S3RH2"
 			(at 0 0 0)
 			(effects
 				(font
@@ -2479,7 +2497,16 @@
 				(hide yes)
 			)
 		)
-		(property "IPN" "MELP100129"
+		(property "modue PN" "MELP100129"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLC PN" "C9900254126"
 			(at 0 0 0)
 			(effects
 				(font

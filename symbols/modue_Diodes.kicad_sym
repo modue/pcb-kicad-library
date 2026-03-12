@@ -28,7 +28,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "modue_SC_SOT:SOT-323_SC-70"
 			(at 0 8.89 0)
 			(effects
 				(font

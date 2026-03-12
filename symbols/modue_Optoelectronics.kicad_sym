@@ -24,7 +24,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "modue_SO:SO-4_4.4x3.7mm_P2.54mm"
 			(at -5.08 -5.08 0)
 			(effects
 				(font

@@ -616,7 +616,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "TCA9803DGK"
+		(property "Manufacturer PN" "TCA9803DGK"
 			(at 0 0 0)
 			(effects
 				(font
