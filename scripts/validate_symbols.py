@@ -7,8 +7,9 @@ Validates KiCad 9 .kicad_sym library files and related assets.
 Checks performed
 ----------------
 1. **Symbol property check** – every non-power symbol must have the required
-   property fields (Reference, Value, Footprint, Datasheet, Description, MPN,
-   Manufacturer, IPN by default) with non-empty values.
+   property fields (Reference, Value, Footprint, Datasheet, Description,
+   Manufacturer, Manufacturer PN, modue PN, JLC PN by default) with
+   non-empty values.
 
 2. **Symbol → footprint reference check** – the Footprint property of each
    symbol must refer to a footprint that actually exists in the repo's
@@ -18,6 +19,11 @@ Checks performed
 3. **Footprint → 3-D model check** – every footprint (.kicad_mod) in the
    repo's footprints/ directory must have a matching .step file (same stem
    name) anywhere under the repo's 3dmodels/ directory.
+   Skipped when footprints/ contains no .kicad_mod files.
+
+4. **Footprint 3-D model embed check** – every footprint must have an
+   embedded 3D model (embedded_files section present) and the (model ...)
+   path must start with "kicad-embed://".
    Skipped when footprints/ contains no .kicad_mod files.
 
 Exit codes
@@ -41,9 +47,10 @@ DEFAULT_REQUIRED_FIELDS: list[str] = [
     "Footprint",
     "Datasheet",
     "Description",
-    "MPN",
     "Manufacturer",
-    "IPN",
+    "Manufacturer PN",
+    "modue PN",
+    "JLC PN",
 ]
 
 # Symbols whose Reference prefix appears here are exempt from property checks.
@@ -81,6 +88,13 @@ class FootprintRefViolation:
 class Model3dViolation:
     footprint_lib: str
     footprint_name: str
+
+
+@dataclass
+class FootprintEmbedViolation:
+    footprint_lib: str
+    footprint_name: str
+    issues: list[str] = field(default_factory=list)
 
 
 # ── S-expression parser (minimal, single-pass) ────────────────────────────────
@@ -293,6 +307,52 @@ def validate_footprint_3d_models(
     return violations
 
 
+_MODEL_PATH_RE = re.compile(r'\(model\s+"([^"]+)"', re.IGNORECASE)
+
+
+def validate_footprint_3d_embeds(
+    repo_root: Path,
+    available_footprints: dict[str, set[str]],
+) -> list[FootprintEmbedViolation]:
+    """
+    Check that every footprint:
+      1. Has embedded 3D model data (embedded_files section present).
+      2. References the model via kicad-embed:// path.
+    """
+    violations: list[FootprintEmbedViolation] = []
+    fp_root = repo_root / "footprints"
+    for lib_name, fps in sorted(available_footprints.items()):
+        for fp_name in sorted(fps):
+            fp_path = fp_root / f"{lib_name}.pretty" / f"{fp_name}.kicad_mod"
+            if not fp_path.exists():
+                continue
+            content = fp_path.read_text(encoding="utf-8")
+            issues: list[str] = []
+
+            has_embedded = "(embedded_files" in content
+            if not has_embedded:
+                issues.append("no embedded_files section (3D model not embedded)")
+
+            models = _MODEL_PATH_RE.findall(content)
+            if not models:
+                issues.append("no (model ...) entry found")
+            else:
+                bad_paths = [m for m in models if not m.startswith("kicad-embed://")]
+                if bad_paths:
+                    issues.append(
+                        "model path(s) not using kicad-embed://: "
+                        + ", ".join(bad_paths)
+                    )
+
+            if issues:
+                violations.append(FootprintEmbedViolation(
+                    footprint_lib=lib_name,
+                    footprint_name=fp_name,
+                    issues=issues,
+                ))
+    return violations
+
+
 # ── Output formatting ─────────────────────────────────────────────────────────
 
 def emit_github_annotations(violations: list[Violation], lib_path: Path):
@@ -323,6 +383,16 @@ def emit_fp_ref_annotations(violations: list[FootprintRefViolation]):
         )
 
 
+def emit_embed_annotations(violations: list[FootprintEmbedViolation]):
+    for v in violations:
+        fp_path = f"footprints/{v.footprint_lib}.pretty/{v.footprint_name}.kicad_mod"
+        print(
+            f"::warning file={fp_path},"
+            f"title=3D embed issue in '{v.footprint_name}'::"
+            + "; ".join(v.issues)
+        )
+
+
 def emit_3d_annotations(violations: list[Model3dViolation]):
     for v in violations:
         fp_path = f"footprints/{v.footprint_lib}.pretty/{v.footprint_name}.kicad_mod"
@@ -337,6 +407,7 @@ def emit_summary(
     all_prop_violations:   dict[Path, list[Violation]],
     all_fp_ref_violations: list[FootprintRefViolation],
     all_3d_violations:     list[Model3dViolation],
+    all_embed_violations:  list[FootprintEmbedViolation],
     required_fields: list[str],
     warn_only: bool,
     fp_check_ran: bool,
@@ -344,7 +415,7 @@ def emit_summary(
     import os
 
     prop_total   = sum(len(v) for v in all_prop_violations.values())
-    total_issues = prop_total + len(all_fp_ref_violations) + len(all_3d_violations)
+    total_issues = prop_total + len(all_fp_ref_violations) + len(all_3d_violations) + len(all_embed_violations)
 
     summary_lines = [
         "## KiCad Symbol & Footprint Validation Report\n\n",
@@ -407,6 +478,22 @@ def emit_summary(
             )
         summary_lines.append("\n")
 
+    # ── 4. 3-D model embed check ──────────────────────────────────────────────
+    summary_lines.append("### 4. Footprint → 3-D model embed check\n")
+    if not fp_check_ran:
+        summary_lines.append("ℹ️ Skipped — no .kicad_mod files found in footprints/.\n\n")
+    elif not all_embed_violations:
+        summary_lines.append("✅ All footprints have an embedded 3D model with kicad-embed:// path.\n\n")
+    else:
+        summary_lines.append(f"⚠️ {len(all_embed_violations)} footprint(s) with 3D embed issues\n\n")
+        summary_lines.append("| Footprint library | Footprint | Issues |\n")
+        summary_lines.append("|-------------------|-----------|--------|\n")
+        for v in all_embed_violations:
+            summary_lines.append(
+                f"| `{v.footprint_lib}` | `{v.footprint_name}` | {'; '.join(v.issues)} |\n"
+            )
+        summary_lines.append("\n")
+
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:
         with open(summary_path, "a", encoding="utf-8") as f:
@@ -456,6 +543,19 @@ def emit_summary(
         print(f"⚠️  [3] {len(all_3d_violations)} footprint(s) missing .step model:")
         for v in all_3d_violations:
             print(f"  {v.footprint_lib}:{v.footprint_name} → {v.footprint_name}.step missing")
+    print()
+
+    # 4
+    if not fp_check_ran:
+        print("ℹ️  [4] 3-D model embed check skipped (no .kicad_mod files).")
+    elif not all_embed_violations:
+        print("✅  [4] All footprints have embedded 3D model with kicad-embed:// path.")
+    else:
+        print(f"⚠️  [4] {len(all_embed_violations)} footprint(s) with 3D embed issues:")
+        for v in all_embed_violations:
+            print(f"  {v.footprint_lib}:{v.footprint_name}")
+            for issue in v.issues:
+                print(f"    ✗ {issue}")
     print()
 
     print(f"Total issues: {total_issues}")
@@ -545,10 +645,18 @@ def main():
         if all_3d_violations:
             emit_3d_annotations(all_3d_violations)
 
+    # ── Check 4: footprint 3-D model embed ───────────────────────────────────
+    all_embed_violations: list[FootprintEmbedViolation] = []
+    if fp_check_ran:
+        all_embed_violations = validate_footprint_3d_embeds(repo_root, available_footprints)
+        if all_embed_violations:
+            emit_embed_annotations(all_embed_violations)
+
     emit_summary(
         all_prop_violations,
         all_fp_ref_violations,
         all_3d_violations,
+        all_embed_violations,
         args.required_fields,
         warn_only,
         fp_check_ran,
@@ -558,6 +666,7 @@ def main():
         sum(len(v) for v in all_prop_violations.values())
         + len(all_fp_ref_violations)
         + len(all_3d_violations)
+        + len(all_embed_violations)
     )
     if total_issues > 0 and not warn_only:
         sys.exit(1)
