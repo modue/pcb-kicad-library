@@ -20,9 +20,12 @@ on:
 permissions:
   contents: write      # needed to create GitHub Releases and push docs/
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   validate:
-    name: Validate KiCad symbols (strict)
+    name: Validate KiCad symbols and footprints (strict)
     runs-on: ubuntu-24.04
 
     steps:
@@ -34,9 +37,9 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate symbol properties
+      - name: Validate symbols and footprints
         run: |
-          python scripts/validate_symbols.py --strict
+          python scripts/validate_symbols_and_footprints.py --strict --repo-root .
 
   release:
     name: Build PCM package and publish release

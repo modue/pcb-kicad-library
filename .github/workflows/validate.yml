@@ -1,0 +1,118 @@
+# .github/workflows/validate.yml
+#
+# Validates all KiCad 9 .kicad_sym library files and footprints on every push
+# and pull request.  Violations are surfaced as ⚠️ warnings (non-blocking) via:
+#   • GitHub Actions inline annotations (visible on the PR "Files changed" tab)
+#   • A Markdown table in the job's Step Summary
+#
+# To switch to strict / blocking mode: change WARN_ONLY to "false" below.
+
+name: Validate
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "**.kicad_sym"
+      - "**.kicad_mod"
+      - ".github/workflows/validate-symbols.yml"
+      - "scripts/validate_symbols_and_footprints.py"
+  pull_request:
+    paths:
+      - "**.kicad_sym"
+      - "**.kicad_mod"
+      - ".github/workflows/validate-symbols.yml"
+      - "scripts/validate_symbols_and_footprints.py"
+
+# Cancel in-progress runs for the same branch/PR to save runner minutes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # Set to "false" to make the job fail when violations are found.
+  WARN_ONLY: "false"
+
+jobs:
+  validate:
+    name: Symbol and footprint check
+    runs-on: ubuntu-24.04
+
+    steps:
+      # ── 1. Checkout ────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history so changed-file detection works on any branch.
+          fetch-depth: 0
+
+      # ── 2. Python setup ────────────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # ── 3. Detect changed symbol files ────────────────────────────────────
+      # On a pull_request event we only validate symbol files that were
+      # actually touched in the PR (footprint checks always run full-repo).
+      # On a push to a branch we validate all symbol files.
+      - name: Detect changed .kicad_sym files
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Files changed between the PR base and the HEAD commit
+            CHANGED=$(git diff --name-only \
+              origin/${{ github.base_ref }}...HEAD \
+              -- '*.kicad_sym' | tr '\n' ' ')
+          else
+            # Full scan on direct push
+            CHANGED=$(find . -name '*.kicad_sym' | tr '\n' ' ')
+          fi
+
+          echo "files=${CHANGED}" >> "$GITHUB_OUTPUT"
+
+          if [ -z "$CHANGED" ]; then
+            echo "no_sym_files=true"  >> "$GITHUB_OUTPUT"
+          else
+            echo "no_sym_files=false" >> "$GITHUB_OUTPUT"
+            echo "### Files to validate" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            echo "$CHANGED" | tr ' ' '\n' | grep -v '^$' >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # ── 4. Run the validator ───────────────────────────────────────────────
+      # Footprint checks (embed + 3D model) always run against the full repo.
+      # Symbol property checks run against the detected file list (or all).
+      - name: Validate symbols and footprints
+        run: |
+          if [ "$WARN_ONLY" = "true" ]; then
+            MODE_FLAG="--warn-only"
+          else
+            MODE_FLAG="--strict"
+          fi
+
+          if [ "${{ steps.changed.outputs.no_sym_files }}" = "true" ]; then
+            # No symbol files changed — still run footprint-only checks
+            python scripts/validate_symbols_and_footprints.py \
+              $MODE_FLAG \
+              --repo-root .
+          else
+            # shellcheck disable=SC2046
+            python scripts/validate_symbols_and_footprints.py \
+              $MODE_FLAG \
+              --repo-root . \
+              -- \
+              ${{ steps.changed.outputs.files }}
+          fi
+
+      # ── 5. Upload full report as artifact ─────────────────────────────────
+      - name: Upload validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-report-${{ github.run_number }}
+          path: |
+            scripts/validate_symbols_and_footprints.py
+          retention-days: 30
