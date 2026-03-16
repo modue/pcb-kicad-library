@@ -113,14 +113,14 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
-          name: "Library ${{ steps.version.outputs.tag }}"
+          name: "modue KiCad PCM Library ${{ steps.version.outputs.tag }}"
           body: |
-            ## KiCad PCM Library — ${{ steps.version.outputs.tag }}
+            ## modue KiCad PCM Library — ${{ steps.version.outputs.tag }}
 
             ### Installing via KiCad PCM
             1. Open KiCad → **Plugin and Content Manager**
             2. Click the **Repositories** tab → **`+`** button
-            3. Paste the repository URL (see your team's README)
+            3. Paste the repository URL (see README.md)
             4. Click **Refresh** → find the library → **Install**
 
             ### Changelog
