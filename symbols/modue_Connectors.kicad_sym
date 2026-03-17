@@ -26,7 +26,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "modue_Connectors:DL-MMCX-KE-180"
 			(at 0 0 0)
 			(effects
 				(font

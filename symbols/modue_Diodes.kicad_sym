@@ -557,7 +557,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "modue_Diodes:D_SOD-923"
 			(at 0 0 0)
 			(effects
 				(font
