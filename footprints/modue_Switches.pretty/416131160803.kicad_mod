@@ -17,7 +17,7 @@
 		)
 	)
 	(property "Value" "416131160803"
-		(at 0 0 0)
+		(at 0 -3.6 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "0d55e814-2913-4c39-bf6a-c8bc4c06e3bd")
@@ -84,18 +84,6 @@
 		(layer "F.CrtYd")
 		(uuid "7119c88c-e18a-4dcf-a403-d8a4fa1aa850")
 	)
-	(fp_text user "*"
-		(at -2.0955 -1.762 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(uuid "23526e6e-96dc-4bbb-b39a-9a3c4b779c83")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(unlocked yes)
@@ -109,37 +97,26 @@
 		)
 	)
 	(fp_text user "ON"
-		(at 2.35 -3.400001 0)
+		(at 2.35 1.9 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "69499589-52cb-4a9b-ab07-daa351b653e7")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.5 0.5)
+				(thickness 0.06)
 			)
 		)
 	)
 	(fp_text user "OFF"
-		(at -2.349 -3.400001 0)
+		(at -2.349 1.9 0)
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "89a112c6-d01e-440c-bddc-c73c5d72d9e3")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(fp_text user "*"
-		(at -2.0955 -1.762 0)
-		(layer "F.Fab")
-		(uuid "9bccf7e1-0618-4f08-8cfa-37e59dbcacc8")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.5 0.5)
+				(thickness 0.06)
 			)
 		)
 	)

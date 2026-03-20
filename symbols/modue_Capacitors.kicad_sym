@@ -14,6 +14,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.794 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23,6 +24,7 @@
 		)
 		(property "Value" "220uF"
 			(at 2.794 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -59,6 +61,7 @@
 		)
 		(property "Voltage" "16V"
 			(at 3.048 -0.762 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -68,6 +71,7 @@
 		)
 		(property "Type" "elec"
 			(at 3.048 -2.032 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -341,6 +345,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -350,6 +355,7 @@
 		)
 		(property "Value" "100nF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -386,6 +392,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -395,6 +402,7 @@
 		)
 		(property "Dielectric" "X7R ESD-Safe"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -404,6 +412,7 @@
 		)
 		(property "Rated Voltage" "50V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -543,6 +552,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -552,6 +562,7 @@
 		)
 		(property "Value" "100nF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -588,6 +599,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -597,6 +609,7 @@
 		)
 		(property "Dielectric" "X7R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -606,6 +619,7 @@
 		)
 		(property "Rated Voltage" "16V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -745,6 +759,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -754,6 +769,7 @@
 		)
 		(property "Value" "100nF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -790,6 +806,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -799,6 +816,7 @@
 		)
 		(property "Dielectric" "X7R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -808,6 +826,7 @@
 		)
 		(property "Rated Voltage" "50V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -947,6 +966,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -956,6 +976,7 @@
 		)
 		(property "Value" "10nF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -992,6 +1013,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1001,6 +1023,7 @@
 		)
 		(property "Dielectric" "X7R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1010,6 +1033,7 @@
 		)
 		(property "Rated Voltage" "16V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1149,6 +1173,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1158,6 +1183,7 @@
 		)
 		(property "Value" "10uF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1194,6 +1220,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1203,6 +1230,7 @@
 		)
 		(property "Dielectric" "X5R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1212,6 +1240,7 @@
 		)
 		(property "Rated Voltage" "25V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1351,6 +1380,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1360,6 +1390,7 @@
 		)
 		(property "Value" "10uF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1396,6 +1427,7 @@
 		)
 		(property "Tolerance" "20%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1405,6 +1437,7 @@
 		)
 		(property "Dielectric" "X5R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1414,6 +1447,7 @@
 		)
 		(property "Rated Voltage" "10V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1553,6 +1587,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1562,6 +1597,7 @@
 		)
 		(property "Value" "1uF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1598,6 +1634,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1607,6 +1644,7 @@
 		)
 		(property "Dielectric" "X5R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1616,6 +1654,7 @@
 		)
 		(property "Rated Voltage" "16V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1755,6 +1794,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1764,6 +1804,7 @@
 		)
 		(property "Value" "2.2uF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1800,6 +1841,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1809,6 +1851,7 @@
 		)
 		(property "Dielectric" "X5R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1818,6 +1861,7 @@
 		)
 		(property "Rated Voltage" "16V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -1957,6 +2001,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1966,6 +2011,7 @@
 		)
 		(property "Value" "22uF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2002,6 +2048,7 @@
 		)
 		(property "Tolerance" "10%"
 			(at 2.794 -1.778 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2011,6 +2058,7 @@
 		)
 		(property "Dielectric" "X7R"
 			(at 2.794 -3.048 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2020,6 +2068,7 @@
 		)
 		(property "Rated Voltage" "25V"
 			(at 2.794 -0.508 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2159,6 +2208,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2168,6 +2218,7 @@
 		)
 		(property "Value" "330pF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2204,6 +2255,7 @@
 		)
 		(property "Tolerance" "5%"
 			(at 2.794 -2.032 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2213,6 +2265,7 @@
 		)
 		(property "Dielectric" "C0G"
 			(at 2.794 -3.302 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2222,6 +2275,7 @@
 		)
 		(property "Rated Voltage" "50V"
 			(at 2.794 -0.762 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2361,6 +2415,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2370,6 +2425,7 @@
 		)
 		(property "Value" "33pF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2406,6 +2462,7 @@
 		)
 		(property "Tolerance" "5%"
 			(at 2.794 -2.032 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2415,6 +2472,7 @@
 		)
 		(property "Dielectric" "C0G"
 			(at 2.794 -3.302 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2424,6 +2482,7 @@
 		)
 		(property "Rated Voltage" "50V"
 			(at 2.794 -0.762 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2563,6 +2622,7 @@
 		(on_board yes)
 		(property "Reference" "C"
 			(at 2.54 2.794 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2572,6 +2632,7 @@
 		)
 		(property "Value" "8pF"
 			(at 2.54 1.016 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2608,6 +2669,7 @@
 		)
 		(property "Tolerance" "±0.5pF"
 			(at 2.794 -2.032 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2617,6 +2679,7 @@
 		)
 		(property "Dielectric" "C0G"
 			(at 2.794 -3.302 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)
@@ -2626,6 +2689,7 @@
 		)
 		(property "Rated Voltage" "50V"
 			(at 2.794 -0.762 0)
+			(do_not_autoplace)
 			(effects
 				(font
 					(size 0.889 0.889)

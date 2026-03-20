@@ -17,13 +17,13 @@
 		)
 	)
 	(property "Value" "D_SOD-923"
-		(at 0 1.2 0)
+		(at 0 0.8 0)
 		(layer "F.Fab")
 		(uuid "0265fa39-6c8d-48a9-aad7-e5e203920a74")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
 		)
 	)
@@ -225,14 +225,15 @@
 		(uuid "2f6ca414-9ad1-4a75-a9f1-910aeed404b6")
 	)
 	(fp_text user "${REFERENCE}"
-		(at 0 -1 0)
+		(at 0.6 0 0)
 		(layer "F.Fab")
 		(uuid "dde4601f-cf74-4708-ba2c-ebbb432b7710")
 		(effects
 			(font
-				(size 1 1)
-				(thickness 0.15)
+				(size 0.4 0.4)
+				(thickness 0.06)
 			)
+			(justify left)
 		)
 	)
 	(pad "1" smd roundrect
