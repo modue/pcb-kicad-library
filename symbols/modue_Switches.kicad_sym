@@ -26,7 +26,7 @@
 				)
 			)
 		)
-		(property "Footprint" "modue_Switch:416131160803"
+		(property "Footprint" "modue_Switches:416131160803"
 			(at 0 -2.54 0)
 			(effects
 				(font
