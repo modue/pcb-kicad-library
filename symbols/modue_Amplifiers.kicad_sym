@@ -76,7 +76,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLC PN" "C2057349 "
+		(property "JLC PN" "C2057349"
 			(at 0 0 0)
 			(effects
 				(font
