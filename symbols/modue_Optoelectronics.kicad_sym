@@ -397,7 +397,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "modue_Optoelectronics:LED_0402_1005Metric_LGA"
 			(at 0 0 0)
 			(effects
 				(font
@@ -749,7 +749,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "modue_Optoelectronics:LED_RGB_1010Metric_LGA"
 			(at 0 0 0)
 			(effects
 				(font
