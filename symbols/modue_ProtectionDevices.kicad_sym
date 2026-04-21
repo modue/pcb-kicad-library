@@ -24,7 +24,7 @@
 				(justify left top)
 			)
 		)
-		(property "Footprint" "modue_QFN_DFN:Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm"
+		(property "Footprint" "modue_QFN_DFN:DFN-8-1EP_1.2x1.8mm_P0.4mm_EP0.35x1.1mm"
 			(at 0 -15.24 0)
 			(effects
 				(font
@@ -306,7 +306,7 @@
 				(justify left top)
 			)
 		)
-		(property "Footprint" "modue_QFN_DFN:Nexperia_HUSON-16_USON-16-1EP_1.35x3.3mm_P0.4mm_EP0.4x2.8mm"
+		(property "Footprint" "modue_QFN_DFN:DFN-16-1EP_1.2x3.5mm_P0.4mm_EP0.35x2.85mm"
 			(at 0 -15.24 0)
 			(effects
 				(font

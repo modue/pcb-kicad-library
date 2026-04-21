@@ -268,7 +268,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "DF37B-16DP-0.4V"
+		(property "Manufacturer PN" "DF37B-16DP-0.4V"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1709,7 +1709,7 @@
 				)
 			)
 		)
-		(property "Manufacturer Part Number" "U262-161N-4BVC11"
+		(property "Manufacturer PN" "U262-161N-4BVC11"
 			(at 0 0 0)
 			(effects
 				(font

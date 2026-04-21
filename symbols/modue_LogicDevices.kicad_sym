@@ -58,7 +58,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "SN74AHC1G02DCKR"
+		(property "Manufacturer PN" "SN74AHC1G02DCKR"
 			(at 2.286 0 0)
 			(effects
 				(font
@@ -561,7 +561,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "SN74AHC1G32DCKR"
+		(property "Manufacturer PN" "SN74AHC1G32DCKR"
 			(at 2.286 0 0)
 			(effects
 				(font

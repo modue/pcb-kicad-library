@@ -291,7 +291,7 @@
 	(embedded_fonts no)
 	(embedded_files
 		(file
-			(name "TSSOP-16-1EP_4.4x5mm_P0.65mm.step")
+			(name "TSSOP-16_4.4x5mm_P0.65mm.step")
 			(type model)
 			(data |KLUv/aA1jgYArKYCKjpHcC+grIySNpiarAj6arc/a7Ffl+zutifXrtt3pxLkpeTK3hk5itJkjhNN
 				jpfjsXI8qJgJaAb5BdlmH5ikLCnNIuJ/aHiGhTiEhEYsFnMQ///3/m63P6JINIJOd/353RXvfnd2
@@ -1320,7 +1320,7 @@
 			(checksum "D1E3952343574EC3840FF0D16551E9D6")
 		)
 	)
-	(model "kicad-embed://TSSOP-16-1EP_4.4x5mm_P0.65mm.step"
+	(model "kicad-embed://TSSOP-16_4.4x5mm_P0.65mm.step"
 		(offset
 			(xyz 0 0 0)
 		)
