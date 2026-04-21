@@ -2,7 +2,7 @@
 	(version 20241209)
 	(generator "kicad_symbol_editor")
 	(generator_version "9.0")
-	(symbol "INA132UA"
+	(symbol "INA132U/2K5"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -14,7 +14,7 @@
 				)
 			)
 		)
-		(property "Value" "INA132UA"
+		(property "Value" "INA132U/2K5"
 			(at 0 13.97 0)
 			(effects
 				(font
@@ -94,7 +94,7 @@
 				(hide yes)
 			)
 		)
-		(symbol "INA132UA_0_0"
+		(symbol "INA132U/2K5_0_0"
 			(rectangle
 				(start -15.24 11.43)
 				(end 13.97 -11.43)
@@ -297,7 +297,7 @@
 				)
 			)
 		)
-		(symbol "INA132UA_0_1"
+		(symbol "INA132U/2K5_0_1"
 			(rectangle
 				(start -8.89 6.985)
 				(end -5.715 5.715)
@@ -343,7 +343,7 @@
 				)
 			)
 		)
-		(symbol "INA132UA_0_2"
+		(symbol "INA132U/2K5_0_2"
 			(polyline
 				(pts
 					(xy -8.89 6.35) (xy -8.636 6.858) (xy -8.128 5.842) (xy -7.62 6.858) (xy -7.112 5.842) (xy -6.604 6.858)
@@ -441,7 +441,7 @@
 				)
 			)
 		)
-		(symbol "INA132UA_1_1"
+		(symbol "INA132U/2K5_1_1"
 			(pin input line
 				(at -17.78 6.35 0)
 				(length 2.54)
@@ -588,7 +588,7 @@
 				)
 			)
 		)
-		(symbol "INA132UA_1_2"
+		(symbol "INA132U/2K5_1_2"
 			(pin input line
 				(at -17.78 6.35 0)
 				(length 2.54)
@@ -737,7 +737,770 @@
 		)
 		(embedded_fonts no)
 	)
-	(symbol "INA181A2"
+	(symbol "INA180A2IDBVR"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "U"
+			(at 0 16.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "INA180A2IDBVR"
+			(at 0 13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "modue_SC_SOT:SOT-23-5"
+			(at 0 -13.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/ina180.pdf"
+			(at 0 -16.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "50V/V Gain, Low- and High-Side Voltage Output, Current-Sense Amplifier"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer PN" "INA180A2IDBVR"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "modue PN" "MELP100211"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLC PN" "C192764"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "diffamp difference amplifier current precision INA180"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "INA180A2IDBVR_0_0"
+			(rectangle
+				(start -15.24 10.16)
+				(end 13.97 -10.16)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(polyline
+				(pts
+					(xy -9.525 6.35) (xy -10.795 6.35)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -9.525 -6.35) (xy -10.795 -6.35)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -6.35 -6.35) (xy -5.08 -6.35) (xy -5.08 -2.54) (xy -3.81 -2.54)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(circle
+				(center -5.08 6.35)
+				(radius 0.254)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy -5.08 6.35) (xy 0 6.35)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(circle
+				(center -5.08 -6.35)
+				(radius 0.254)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy -3.81 5.08) (xy -3.81 -5.08) (xy 6.35 0) (xy -3.81 5.08)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -3.81 2.54) (xy -5.08 2.54) (xy -5.08 6.35) (xy -6.35 6.35)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0 -6.35) (xy -5.08 -6.35)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 3.175 6.35) (xy 7.62 6.35)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 3.175 -6.35) (xy 5.715 -6.35)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 5.715 -6.35) (xy 5.715 -7.62)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 5.7912 -8.2296) (xy 5.6388 -8.2296)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 6.0325 -7.9375) (xy 5.3975 -7.9375)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 6.35 6.35) (xy 7.62 6.35) (xy 7.62 2.54) (xy 7.62 0)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 6.35 -7.62) (xy 5.08 -7.62)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(circle
+				(center 7.62 0)
+				(radius 0.254)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type outline)
+				)
+			)
+			(polyline
+				(pts
+					(xy 7.874 0) (xy 9.144 0)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 8.255 0) (xy 6.35 0)
+				)
+				(stroke
+					(width 0.1524)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(text "10k"
+				(at -7.874 7.874 0)
+				(effects
+					(font
+						(size 0.8 0.8)
+					)
+				)
+			)
+			(text "10k"
+				(at -7.874 -4.826 0)
+				(effects
+					(font
+						(size 0.8 0.8)
+					)
+				)
+			)
+			(text "-"
+				(at -2.54 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(text "+"
+				(at -2.54 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(text "500k"
+				(at 1.651 7.874 0)
+				(effects
+					(font
+						(size 0.8 0.8)
+					)
+				)
+			)
+			(text "500k"
+				(at 1.651 -4.826 0)
+				(effects
+					(font
+						(size 0.8 0.8)
+					)
+				)
+			)
+		)
+		(symbol "INA180A2IDBVR_0_1"
+			(rectangle
+				(start -9.525 6.985)
+				(end -6.35 5.715)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start -9.525 -5.715)
+				(end -6.35 -6.985)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start 0 6.985)
+				(end 3.175 5.715)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(rectangle
+				(start 0 -5.715)
+				(end 3.175 -6.985)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "INA180A2IDBVR_0_2"
+			(polyline
+				(pts
+					(xy -8.89 6.35) (xy -8.636 6.858) (xy -8.128 5.842) (xy -7.62 6.858) (xy -7.112 5.842) (xy -6.604 6.858)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -8.89 -6.35) (xy -8.636 -5.842) (xy -8.128 -6.858) (xy -7.62 -5.842) (xy -7.112 -6.858) (xy -6.604 -5.842)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -6.604 6.858) (xy -6.096 5.842) (xy -5.842 6.35)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy -6.604 -5.842) (xy -6.096 -6.858) (xy -5.842 -6.35)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.635 6.35) (xy 0.889 6.858) (xy 1.397 5.842) (xy 1.905 6.858) (xy 2.413 5.842) (xy 2.921 6.858)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 0.635 -6.35) (xy 0.889 -5.842) (xy 1.397 -6.858) (xy 1.905 -5.842) (xy 2.413 -6.858) (xy 2.921 -5.842)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.921 6.858) (xy 3.429 5.842) (xy 3.683 6.35)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(polyline
+				(pts
+					(xy 2.921 -5.842) (xy 3.429 -6.858) (xy 3.683 -6.35)
+				)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+		)
+		(symbol "INA180A2IDBVR_1_1"
+			(pin input line
+				(at -17.78 6.35 0)
+				(length 2.54)
+				(name "IN-"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -17.78 -6.35 0)
+				(length 2.54)
+				(name "IN+"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 16.51 6.35 180)
+				(length 2.54)
+				(name "V+"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 16.51 0 180)
+				(length 2.54)
+				(name "OUT"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 16.51 -6.35 180)
+				(length 2.54)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(symbol "INA180A2IDBVR_1_2"
+			(pin input line
+				(at -17.78 6.35 0)
+				(length 2.54)
+				(name "IN-"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -17.78 -6.35 0)
+				(length 2.54)
+				(name "IN+"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin free line
+				(at -10.16 0 0)
+				(length 2.54)
+				(hide yes)
+				(name "NC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "8"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 16.51 8.89 180)
+				(length 2.54)
+				(name "V+"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 16.51 6.35 180)
+				(length 2.54)
+				(name "SENSE"
+					(effects
+						(font
+							(size 0.8 0.8)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 16.51 0 180)
+				(length 2.54)
+				(name "OUT"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 16.51 -6.35 180)
+				(length 2.54)
+				(name "REF"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 16.51 -8.89 180)
+				(length 2.54)
+				(name "V-"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "INA181A2DBV"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -829,7 +1592,7 @@
 				(hide yes)
 			)
 		)
-		(symbol "INA181A2_0_0"
+		(symbol "INA181A2DBV_0_0"
 			(rectangle
 				(start -15.24 11.43)
 				(end 13.97 -11.43)
@@ -1079,7 +1842,7 @@
 				)
 			)
 		)
-		(symbol "INA181A2_0_1"
+		(symbol "INA181A2DBV_0_1"
 			(rectangle
 				(start -9.525 6.985)
 				(end -6.35 5.715)
@@ -1125,7 +1888,7 @@
 				)
 			)
 		)
-		(symbol "INA181A2_0_2"
+		(symbol "INA181A2DBV_0_2"
 			(polyline
 				(pts
 					(xy -8.89 6.35) (xy -8.636 6.858) (xy -8.128 5.842) (xy -7.62 6.858) (xy -7.112 5.842) (xy -6.604 6.858)
@@ -1223,7 +1986,7 @@
 				)
 			)
 		)
-		(symbol "INA181A2_1_1"
+		(symbol "INA181A2DBV_1_1"
 			(pin input line
 				(at -17.78 6.35 0)
 				(length 2.54)
@@ -1333,7 +2096,7 @@
 				)
 			)
 		)
-		(symbol "INA181A2_1_2"
+		(symbol "INA181A2DBV_1_2"
 			(pin input line
 				(at -17.78 6.35 0)
 				(length 2.54)
@@ -1490,7 +2253,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "U"
-			(at 0 5.08 0)
+			(at 6.096 5.334 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1499,7 +2262,7 @@
 			)
 		)
 		(property "Value" "MCP6002-I/MS"
-			(at 0 -5.08 0)
+			(at 4.572 -8.382 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1734,8 +2497,8 @@
 		)
 		(symbol "MCP6002-I/MS_3_1"
 			(rectangle
-				(start -5.08 7.62)
-				(end 5.08 -6.35)
+				(start -2.54 6.35)
+				(end 2.54 -6.35)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -1745,8 +2508,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 12.7 270)
-				(length 5.08)
+				(at 0 8.89 270)
+				(length 2.54)
 				(name "V+"
 					(effects
 						(font
@@ -1763,8 +2526,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -11.43 90)
-				(length 5.08)
+				(at 0 -8.89 90)
+				(length 2.54)
 				(name "V-"
 					(effects
 						(font

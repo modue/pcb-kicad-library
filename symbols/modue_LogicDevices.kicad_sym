@@ -1173,8 +1173,8 @@
 		)
 		(symbol "SN74HCS125DYYR_5_0"
 			(pin power_in line
-				(at 0 12.7 270)
-				(length 5.08)
+				(at 0 8.89 270)
+				(length 2.54)
 				(name "VCC"
 					(effects
 						(font
@@ -1191,8 +1191,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -12.7 90)
-				(length 5.08)
+				(at 0 -8.89 90)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -1211,8 +1211,8 @@
 		)
 		(symbol "SN74HCS125DYYR_5_1"
 			(rectangle
-				(start -5.08 7.62)
-				(end 5.08 -7.62)
+				(start -2.54 6.35)
+				(end 2.54 -6.35)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -1464,10 +1464,10 @@
 				)
 			)
 		)
-		(symbol "SN74LVC2G14DCKR_3_0"
+		(symbol "SN74LVC2G14DCKR_3_1"
 			(rectangle
-				(start -2.54 5.08)
-				(end 2.54 -5.08)
+				(start -2.54 6.35)
+				(end 2.54 -6.35)
 				(stroke
 					(width 0.254)
 					(type default)
@@ -1476,11 +1476,9 @@
 					(type background)
 				)
 			)
-		)
-		(symbol "SN74LVC2G14DCKR_3_1"
 			(pin power_in line
-				(at 0 10.16 270)
-				(length 5.08)
+				(at 0 8.89 270)
+				(length 2.54)
 				(name "VCC"
 					(effects
 						(font
@@ -1497,8 +1495,8 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -10.16 90)
-				(length 5.08)
+				(at 0 -8.89 90)
+				(length 2.54)
 				(name "GND"
 					(effects
 						(font
@@ -2211,8 +2209,8 @@
 		)
 		(symbol "TMUX1574PWR_5_1"
 			(rectangle
-				(start 3.81 6.35)
-				(end -6.35 -6.35)
+				(start -6.35 6.35)
+				(end 2.54 -6.35)
 				(stroke
 					(width 0.254)
 					(type default)
