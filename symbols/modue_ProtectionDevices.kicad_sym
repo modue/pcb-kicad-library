@@ -254,7 +254,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "NUF4001MUT2G"
+		(property "Manufacturer PN" "NUF4001MUT2G"
 			(at 0 -5.08 0)
 			(effects
 				(font
@@ -536,7 +536,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer Part Number" "NUF8001MUT2G"
+		(property "Manufacturer PN" "NUF8001MUT2G"
 			(at 0 0 0)
 			(effects
 				(font

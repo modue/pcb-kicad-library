@@ -498,7 +498,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_KOHERelec_MDA5030"
+		(property "Footprint" "modue_Inductors:L_KOHERelec_MDA5030_5.7x5.2mm"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1894,7 +1894,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_KOHERelec_MDA7030"
+		(property "Footprint" "modue_Inductors:L_KOHERelec_MDA7050_7.3x6.6mm"
 			(at 0 0 0)
 			(effects
 				(font

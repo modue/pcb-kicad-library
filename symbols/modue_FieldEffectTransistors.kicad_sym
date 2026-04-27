@@ -27,7 +27,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "modue_QFN_DFN:DFN-8-1EP_3.3x3.3mm_P0.65mm_Diodes_PowerDI3333-8"
 			(at 5.08 -2.54 0)
 			(effects
 				(font
