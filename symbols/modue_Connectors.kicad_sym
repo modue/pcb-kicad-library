@@ -228,7 +228,7 @@
 				)
 			)
 		)
-		(property "Footprint" "modue_Mechanical:SW_Gateron_LowProfile_HotSwap_PTH"
+		(property "Footprint" "modue_Connectors:Gateron_KS-2P02B01-02"
 			(at 0 0 0)
 			(effects
 				(font
