@@ -22,7 +22,7 @@
 				)
 			)
 		)
-		(property "Footprint" "modue_SO:SO-8_3.9x4.9mm_P1.27mm"
+		(property "Footprint" "modue_SO:SOIC-8_5.3x5.3mm_P1.27mm"
 			(at 0 0 0)
 			(effects
 				(font
@@ -40,7 +40,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SO-8"
+		(property "Description" "128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"
 			(at 0 0 0)
 			(effects
 				(font
@@ -284,7 +284,7 @@
 				)
 			)
 		)
-		(property "Footprint" "modue_SO:SO-8_3.9x4.9mm_P1.27mm"
+		(property "Footprint" "modue_SO:SOIC-8_5.3x5.3mm_P1.27mm"
 			(at 0 0 0)
 			(effects
 				(font
@@ -302,7 +302,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "32Mb Serial Flash Memory, Standard/Dual/Quad SPI, SO-8"
+		(property "Description" "32Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"
 			(at 0 0 0)
 			(effects
 				(font
@@ -537,7 +537,7 @@
 				)
 			)
 		)
-		(property "Footprint" "modue_SO:SO-8_3.9x4.9mm_P1.27mm"
+		(property "Footprint" "modue_SO:SOIC-8_5.3x5.3mm_P1.27mm"
 			(at 0 0 0)
 			(effects
 				(font
@@ -555,7 +555,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "64Mb Serial Flash Memory, Standard/Dual/Quad SPI, SO-8"
+		(property "Description" "64Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"
 			(at 0 0 0)
 			(effects
 				(font
