@@ -1247,7 +1247,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "modue_Diodes:D_SOD-923"
+		(property "Footprint" "modue_Diodes:D_SOD-123F"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1465,14 +1465,14 @@
 			(pin passive line
 				(at -3.81 0 0)
 				(length 1.27)
-				(name "K"
+				(name "A"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number "1"
+				(number "2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -1483,14 +1483,14 @@
 			(pin passive line
 				(at 1.27 0 180)
 				(length 1.27)
-				(name "A"
+				(name "K"
 					(effects
 						(font
 							(size 1.27 1.27)
 						)
 					)
 				)
-				(number "2"
+				(number "1"
 					(effects
 						(font
 							(size 1.27 1.27)
