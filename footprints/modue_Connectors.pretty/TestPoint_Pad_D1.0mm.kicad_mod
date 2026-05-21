@@ -83,26 +83,4 @@
 		(uuid "bab732e9-e79a-410d-8a2b-e7d9e8d299bb")
 	)
 	(embedded_fonts no)
-	(embedded_files
-		(file
-			(name "TestPoint_Pad_D1.0mm.step")
-			(type model)
-			(data |KLUv/SC0DQQAoscZGHDNA0TW9LGgZCpaijpauyNuNBsh/dtDDdY54lVN+rneV5Oxlh/AiL3X8uIH
-				mrt1t46YSQIc5wGwJouCk+lpIDxJDNLrC7+s4YzdWPda17AItgfNX5MnrKDm8dV/UBNGJ5980BnZ
-				BggAKXO4ckNiyAe4QHfPqwnM6j4JmYIC|
-			)
-			(checksum "276C9C1720C9637C2CA07BDF513B4DF4")
-		)
-	)
-	(model "kicad-embed://TestPoint_Pad_D1.0mm.step"
-		(offset
-			(xyz 0 0 0)
-		)
-		(scale
-			(xyz 1 1 1)
-		)
-		(rotate
-			(xyz 0 0 0)
-		)
-	)
 )

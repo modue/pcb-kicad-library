@@ -1,0 +1,5 @@
+# Footprints exempt from 3D model checks (checks 3 & 4).
+# One footprint stem name per line. Lines starting with '#' are comments.
+# Use this for footprints like test points that intentionally have no 3D model.
+
+TestPoint_Pad_D1.0mm

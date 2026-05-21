@@ -250,6 +250,22 @@ def find_available_3d_models(repo_root: Path) -> set[str]:
     return {p.stem for p in models_root.rglob("*.step")}
 
 
+def load_3d_whitelist(repo_root: Path) -> frozenset[str]:
+    """
+    Load footprint stem names exempt from 3D model checks (checks 3 & 4)
+    from footprints/no3dmodel.whitelist.  Lines starting with '#' are comments.
+    """
+    whitelist_path = repo_root / "footprints" / "no3dmodel.whitelist"
+    if not whitelist_path.exists():
+        return frozenset()
+    entries = set()
+    for line in whitelist_path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped and not stripped.startswith("#"):
+            entries.add(stripped)
+    return frozenset(entries)
+
+
 def validate_symbol_footprint_refs(
     lib_path: Path,
     symbols: dict[str, dict[str, str]],
@@ -292,14 +308,18 @@ def validate_symbol_footprint_refs(
 def validate_footprint_3d_models(
     available_footprints: dict[str, set[str]],
     available_3d_models: set[str],
+    whitelist: frozenset[str] = frozenset(),
 ) -> list[Model3dViolation]:
     """
     Check that every footprint in footprints/ has a matching .step file
     (by stem name) anywhere in 3dmodels/.
+    Footprints listed in whitelist are skipped.
     """
     violations: list[Model3dViolation] = []
     for lib_name, fps in sorted(available_footprints.items()):
         for fp_name in sorted(fps):
+            if fp_name in whitelist:
+                continue
             if fp_name not in available_3d_models:
                 violations.append(Model3dViolation(
                     footprint_lib=lib_name, footprint_name=fp_name,
@@ -313,16 +333,20 @@ _MODEL_PATH_RE = re.compile(r'\(model\s+"([^"]+)"', re.IGNORECASE)
 def validate_footprint_3d_embeds(
     repo_root: Path,
     available_footprints: dict[str, set[str]],
+    whitelist: frozenset[str] = frozenset(),
 ) -> list[FootprintEmbedViolation]:
     """
     Check that every footprint:
       1. Has embedded 3D model data (embedded_files section present).
       2. References the model via kicad-embed:// path.
+    Footprints listed in whitelist are skipped.
     """
     violations: list[FootprintEmbedViolation] = []
     fp_root = repo_root / "footprints"
     for lib_name, fps in sorted(available_footprints.items()):
         for fp_name in sorted(fps):
+            if fp_name in whitelist:
+                continue
             fp_path = fp_root / f"{lib_name}.pretty" / f"{fp_name}.kicad_mod"
             if not fp_path.exists():
                 continue
@@ -618,6 +642,7 @@ def main():
     # ── Discover footprints and 3-D models ────────────────────────────────────
     available_footprints = find_available_footprints(repo_root)
     available_3d_models  = find_available_3d_models(repo_root)
+    no3d_whitelist       = load_3d_whitelist(repo_root)
     fp_check_ran = bool(available_footprints)
 
     # ── Check 1 + 2: per-library ──────────────────────────────────────────────
@@ -641,14 +666,18 @@ def main():
     # ── Check 3: footprint → 3-D model ───────────────────────────────────────
     all_3d_violations: list[Model3dViolation] = []
     if fp_check_ran:
-        all_3d_violations = validate_footprint_3d_models(available_footprints, available_3d_models)
+        all_3d_violations = validate_footprint_3d_models(
+            available_footprints, available_3d_models, no3d_whitelist,
+        )
         if all_3d_violations:
             emit_3d_annotations(all_3d_violations)
 
     # ── Check 4: footprint 3-D model embed ───────────────────────────────────
     all_embed_violations: list[FootprintEmbedViolation] = []
     if fp_check_ran:
-        all_embed_violations = validate_footprint_3d_embeds(repo_root, available_footprints)
+        all_embed_violations = validate_footprint_3d_embeds(
+            repo_root, available_footprints, no3d_whitelist,
+        )
         if all_embed_violations:
             emit_embed_annotations(all_embed_violations)
 
