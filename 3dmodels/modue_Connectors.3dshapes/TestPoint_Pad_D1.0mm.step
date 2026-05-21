@@ -1,9 +1,0 @@
-ISO-10303-21;
-HEADER;
-FILE_DESCRIPTION((''),'2;1');
-FILE_NAME('TestPoint_Pad_D1.0mm.step','',(''),(''),'','','');
-FILE_SCHEMA(('AP214E3'));
-ENDSEC;
-DATA;
-ENDSEC;
-END-ISO-10303-21;
