@@ -2184,7 +2184,7 @@
 				(hide yes)
 			)
 		)
-		(property "modue PN" "C463641"
+		(property "modue PN" "MELP100220"
 			(at 0 -5.08 0)
 			(effects
 				(font
@@ -2193,7 +2193,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLC PN" "MELP100220"
+		(property "JLC PN" "C463641"
 			(at 0 -5.08 0)
 			(effects
 				(font
@@ -2466,7 +2466,7 @@
 				(hide yes)
 			)
 		)
-		(property "modue PN" "C894109"
+		(property "modue PN" "MELP100219"
 			(at 0 0 0)
 			(effects
 				(font
@@ -2475,7 +2475,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLC PN" "MELP100219"
+		(property "JLC PN" "C894109"
 			(at 0 0 0)
 			(effects
 				(font
