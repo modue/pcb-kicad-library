@@ -1,12 +1,9 @@
 ISO-10303-21;
 HEADER;
-FILE_DESCRIPTION(('FreeCAD Model'),'2;1');
-FILE_NAME('Open CASCADE Shape Model','2021-02-25T01:48:16',(
-    'kicad StepUp'),('ksu MCAD'),'Open CASCADE STEP processor 7.5',
-  'FreeCAD','Unknown');
-FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));
+FILE_DESCRIPTION((''),'2;1');
+FILE_NAME('TestPoint_Pad_D1.0mm.step','',(''),(''),'','','');
+FILE_SCHEMA(('AP214E3'));
 ENDSEC;
 DATA;
-
 ENDSEC;
 END-ISO-10303-21;

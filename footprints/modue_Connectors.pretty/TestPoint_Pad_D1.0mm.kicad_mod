@@ -87,13 +87,11 @@
 		(file
 			(name "TestPoint_Pad_D1.0mm.step")
 			(type model)
-			(data |KLUv/WBBAA0HANJNLRgw2wGCQ3oSCTVRoleDsy5fvxo8CEoqjmHUADic4xDgPH2Drh7keD+yjf/i
-				98N/SZRHcZiFcR3PWnOrT8+Gvilqol0W8j8g5IRYfk1ZdgzTVf2sc0KQIf5Y77Jm1mqnju32IhiW
-				Zn5AC1nZDYM0u+ASYzCKYRvFqILk9h3iz8afR0cVy7pb/ArydowsBPkcxdR6iD/juEZZ6wujuIzS
-				nq1DX6+oCHC0DvE+Ac42hqM4ij1gGxUPADbrwBUQyBQqwGDkWf7WkK2JwLHSfYxorug+LgA/DugX
-				AKLK412m9g==|
+			(data |KLUv/SC0DQQAoscZGHDNA0TW9LGgZCpaijpauyNuNBsh/dtDDdY54lVN+rneV5Oxlh/AiL3X8uIH
+				mrt1t46YSQIc5wGwJouCk+lpIDxJDNLrC7+s4YzdWPda17AItgfNX5MnrKDm8dV/UBNGJ5980BnZ
+				BggAKXO4ckNiyAe4QHfPqwnM6j4JmYIC|
 			)
-			(checksum "7A1B2028309661FFD4DCE48942CFAE36")
+			(checksum "276C9C1720C9637C2CA07BDF513B4DF4")
 		)
 	)
 	(model "kicad-embed://TestPoint_Pad_D1.0mm.step"
