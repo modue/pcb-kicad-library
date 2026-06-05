@@ -1023,7 +1023,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer PN" "DF37B-16DP-0.4V"
+		(property "Manufacturer PN" "DF37NB-16DS-0.4V"
 			(at 0 0 0)
 			(effects
 				(font
@@ -1041,7 +1041,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLC PN" "C6539762"
+		(property "JLC PN" "C2764729"
 			(at 0 0 0)
 			(effects
 				(font
