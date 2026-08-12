@@ -454,7 +454,7 @@
 					)
 				)
 			)
-			(pin no_connect line
+			(pin unspecified line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
@@ -473,7 +473,7 @@
 					)
 				)
 			)
-			(pin no_connect line
+			(pin unspecified line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
@@ -492,7 +492,7 @@
 					)
 				)
 			)
-			(pin no_connect line
+			(pin unspecified line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
@@ -511,10 +511,9 @@
 					)
 				)
 			)
-			(pin no_connect line
+			(pin unspecified line
 				(at 10.16 -10.16 180)
 				(length 2.54)
-				(hide yes)
 				(name "SW"
 					(effects
 						(font
@@ -530,7 +529,7 @@
 					)
 				)
 			)
-			(pin no_connect line
+			(pin unspecified line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
@@ -549,10 +548,9 @@
 					)
 				)
 			)
-			(pin no_connect line
+			(pin unspecified line
 				(at 10.16 -12.7 180)
 				(length 2.54)
-				(hide yes)
 				(name "BST"
 					(effects
 						(font
