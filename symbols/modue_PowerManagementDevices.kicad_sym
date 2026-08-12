@@ -454,7 +454,7 @@
 					)
 				)
 			)
-			(pin power_out line
+			(pin no_connect line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
@@ -473,7 +473,7 @@
 					)
 				)
 			)
-			(pin power_out line
+			(pin no_connect line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
@@ -492,7 +492,7 @@
 					)
 				)
 			)
-			(pin power_out line
+			(pin no_connect line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
@@ -529,7 +529,7 @@
 					)
 				)
 			)
-			(pin power_out line
+			(pin no_connect line
 				(at 10.16 -10.16 180)
 				(length 2.54)
 				(hide yes)
