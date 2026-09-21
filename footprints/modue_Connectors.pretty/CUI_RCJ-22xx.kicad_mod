@@ -248,7 +248,7 @@
 	(embedded_fonts no)
 	(embedded_files
 		(file
-			(name "CUI_RCJ-22xx.stp")
+			(name "CUI_RCJ-22xx.step")
 			(type model)
 			(data |KLUv/aDmqQgAfCwCCoJGUizQkEYpNvgJrN/F/afhsoDRQw26ZDyiFbikrMjunVKW13Q0LYzhYZS6
 				JocxCFUGrwTGBA0PDRAaDyYkHEzwAKJ2Xb0i16Y9KXZt31Lc0kltW2ld6kof+3gvOonJzTPWYxbL
@@ -1423,7 +1423,7 @@
 			(checksum "ABE3397939475503A447C625299ABE91")
 		)
 	)
-	(model "kicad-embed://CUI_RCJ-22xx.stp"
+	(model "kicad-embed://CUI_RCJ-22xx.step"
 		(offset
 			(xyz 0 -1.5 14.65)
 		)

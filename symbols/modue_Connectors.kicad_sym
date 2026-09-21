@@ -4596,7 +4596,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufactuer PN" "RCJ-2223"
+		(property "Manufacturer PN" "RCJ-2223"
 			(at 0 0 0)
 			(effects
 				(font
