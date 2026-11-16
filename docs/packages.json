@@ -20,13 +20,13 @@
       },
       "versions": [
         {
-          "version": "26.1116.1",
+          "version": "26.1116.2",
           "status": "stable",
           "kicad_version": "9.0",
-          "download_url": "https://github.com/modue/pcb-kicad-library/releases/download/v26.1116.1/library.zip",
-          "download_sha256": "862e3413d96c9230fc5df76922b2c40f08f3d95f4fa7726924f8263cff3ae00c",
-          "download_size": 10690102,
-          "install_size": 41667796
+          "download_url": "https://github.com/modue/pcb-kicad-library/releases/download/v26.1116.2/library.zip",
+          "download_sha256": "1c4482db49fa87f296b60184bd17823561fcc1116c1b0e1c9657bb8a5d9a11c1",
+          "download_size": 11861855,
+          "install_size": 46234859
         }
       ]
     }
