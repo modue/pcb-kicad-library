@@ -7983,7 +7983,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 499R, 1%, 0402"
+		(property "Description" "Resistor, 330R, 1%, 0402"
 			(at 0 0 0)
 			(effects
 				(font
@@ -8028,7 +8028,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer PN" "0402WGF4990TCE"
+		(property "Manufacturer PN" "0402WGF3300TCE"
 			(at 0 0 0)
 			(effects
 				(font

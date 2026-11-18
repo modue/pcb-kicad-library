@@ -449,7 +449,7 @@
 		(roundrect_rratio 0.25)
 		(uuid "64524adb-8103-4873-a0b6-c8ad401973a7")
 	)
-	(pad "A3" smd roundrect
+	(pad "A4" smd roundrect
 		(at 1.725 1.725 180)
 		(size 0.25 0.25)
 		(layers "F.Cu" "F.Mask" "F.Paste")
