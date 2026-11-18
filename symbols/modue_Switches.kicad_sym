@@ -336,7 +336,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(symbol "HFD4-5-SR"
+	(symbol "G6K-2F-Y-TR-DC3"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -349,7 +349,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "HFD4/5-SR"
+		(property "Value" "G6K-2F-Y-TR DC3"
 			(at 16.51 1.27 0)
 			(effects
 				(font
@@ -358,7 +358,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "modue_Switches:Relay_DPDT_Hongfa_HFD4_SMT"
+		(property "Footprint" "modue_Switches:Relay_DPDT_Omron_G6K-2F-Y_Hongfa_HFD4-S"
 			(at 5.08 2.54 0)
 			(effects
 				(font
@@ -367,7 +367,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.lcsc.com/datasheet/C64399.pdf"
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C2153097.pdf"
 			(at 0 0 0)
 			(effects
 				(font
@@ -376,7 +376,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Signal relay DPDT (2 Form C), 5V coil 178R 140mW, 2A, min load 10mV 10uA, SMT 10x6.5x5.65mm"
+		(property "Description" "Signal relay DPDT (2 Form C), 3V coil 91R 100mW, 1A, min load 10mV 10uA, SMT gull wing 10x6.5x5.2mm; second source on the same footprint: Hongfa HFD4/3-SR"
 			(at 0 0 0)
 			(effects
 				(font
@@ -385,7 +385,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer" "Hongfa"
+		(property "Manufacturer" "Omron"
 			(at 0 0 0)
 			(effects
 				(font
@@ -394,7 +394,7 @@
 				(hide yes)
 			)
 		)
-		(property "Manufacturer PN" "HFD4/5-SR"
+		(property "Manufacturer PN" "G6K-2F-Y-TR DC3"
 			(at 0 0 0)
 			(effects
 				(font
@@ -412,7 +412,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLC PN" "C64399"
+		(property "JLC PN" "C2153097"
 			(at 0 0 0)
 			(effects
 				(font
@@ -421,7 +421,7 @@
 				(hide yes)
 			)
 		)
-		(property "ki_keywords" "relay signal DPDT 2 form C 5V"
+		(property "ki_keywords" "relay signal DPDT 2 form C 3V"
 			(at 0 0 0)
 			(effects
 				(font
@@ -430,7 +430,7 @@
 				(hide yes)
 			)
 		)
-		(symbol "HFD4-5-SR_0_0"
+		(symbol "G6K-2F-Y-TR-DC3_0_0"
 			(text "+"
 				(at -9.271 2.921 0)
 				(effects
@@ -440,7 +440,7 @@
 				)
 			)
 		)
-		(symbol "HFD4-5-SR_0_1"
+		(symbol "G6K-2F-Y-TR-DC3_0_1"
 			(rectangle
 				(start -15.24 5.08)
 				(end 15.24 -5.08)
@@ -752,7 +752,7 @@
 				)
 			)
 		)
-		(symbol "HFD4-5-SR_1_1"
+		(symbol "G6K-2F-Y-TR-DC3_1_1"
 			(pin passive line
 				(at -10.16 7.62 270)
 				(length 2.54)
